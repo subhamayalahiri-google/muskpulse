@@ -1,0 +1,491 @@
+<?php get_header(); ?>
+
+<?php if (!MP_SPLASH_ENABLED) : ?>
+<style>
+  #scene, #hud, #scanlines, #atmosphere, #countdown-wrap, #liftoff-text, #flash,
+  .corner, .telemetry, .mission-data, #starfield, #smokeCanvas { display:none !important; }
+  #landing-page { opacity:1 !important; pointer-events:all !important; }
+  body { cursor: default !important; }
+</style>
+<?php endif; ?>
+
+<!-- ══ LANDING PAGE (z:3 — revealed as smoke clears) ══ -->
+<div id="landing-page">
+
+  <nav class="lp-nav" id="lpNav">
+    <div class="lp-nav-brand">
+      <div class="lp-logo">MUSK<span>PULSE</span></div>
+      <span class="lp-nav-clock" id="lpNavClock">00:00:00 UTC</span>
+    </div>
+    <ul class="lp-nav-links">
+      <li><a href="<?php echo esc_url(home_url('/mission-feed')); ?>">Mission Feed</a></li>
+      <li><a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a></li>
+      <li><a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a></li>
+      <li><a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a></li>
+    </ul>
+    <div class="lp-status-bar">
+      <span class="live-dot"></span>
+      <span>LIVE FEED ACTIVE</span>
+      <span class="mp-clock">00:00:00 UTC</span>
+    </div>
+    <!-- Mobile only: live TSLA in nav -->
+    <div class="lp-nav-tsla">
+      <span class="mp-tsla-price">$--</span>
+      <span class="mp-tsla-pct pos">▲ --%</span>
+    </div>
+  </nav>
+  <script>
+  (function(){
+    var el = document.getElementById('lpNavClock');
+    if (!el) return;
+    function tick() {
+      var n = new Date(), p = function(v){ return String(v).padStart(2,'0'); };
+      el.textContent = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
+    }
+    setInterval(tick, 1000); tick();
+  })();
+  </script>
+
+  <?php get_template_part('template-parts/ticker', null, ['variant' => 'lp']); ?>
+
+  <!-- ── MOBILE ONLY: Market data strip ── -->
+  <div class="lp-market-strip">
+    <div class="lp-ms-cell">
+      <div class="lp-ms-sym">TSLA</div>
+      <div class="lp-ms-price mp-tsla-price">$--</div>
+      <div class="lp-ms-chg mp-tsla-pct pos">▲ --%</div>
+    </div>
+    <div class="lp-stat-row">
+      <span class="lp-stat-label">SPCX</span>
+      <div>
+        <span class="lp-stat-val mp-spcx-price">$135.00</span>
+        <span class="lp-stat-change mp-spcx-pct">PRE-IPO</span>
+      </div>
+    </div>
+    <div class="lp-ms-cell">
+      <div class="lp-ms-sym">XOVR ETF</div>
+      <div class="lp-ms-price">$31.40</div>
+      <div class="lp-ms-chg pos">▲ 1.8%</div>
+    </div>
+  </div>
+
+  <!-- ── MOBILE ONLY: Category tabs ── -->
+  <div class="lp-mob-tabs">
+    <a href="<?php echo esc_url(home_url('/mission-feed')); ?>"          class="lp-mob-tab active">ALL</a>
+    <a href="<?php echo esc_url(home_url('/category/spacex-ipo')); ?>"   class="lp-mob-tab">SPACEX IPO</a>
+    <a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>"   class="lp-mob-tab">TSLA INTEL</a>
+    <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>"  class="lp-mob-tab">xAI</a>
+    <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>"  class="lp-mob-tab">NEURALINK</a>
+  </div>
+
+  <div class="lp-main" id="lpMain">
+
+    <div class="lp-hero">
+      <div class="c-tl"></div>
+      <div class="invest-badge">Investor Alert</div>
+      <div class="lp-mission-tag">Mission Feed — Active</div>
+      <h1 class="lp-h1">
+        <span class="w1">INTEL ON</span>
+        <span class="w2">TESLA. SPACEX.</span>
+        <span class="w3">THE MUSK UNIVERSE.</span>
+      </h1>
+      <p class="lp-sub">Real-time intelligence on Tesla, SpaceX, xAI, and the full Elon Musk portfolio — built for investors who need signal, not noise.</p>
+      <div class="lp-cta-row">
+        <a href="<?php echo esc_url(home_url('/mission-briefing')); ?>" class="lp-cta"><span>Join Mission Briefing →</span></a>
+        <a href="#latest" class="lp-cta-ghost">↓ Latest Intel</a>
+      </div>
+      <div class="c-br"></div>
+    </div>
+
+    <div class="lp-side">
+      <div class="lp-panel-section">
+        <div class="lp-panel-title">Market Intel <span class="mp-tsla-status mp-market-closed">MARKET CLOSED</span></div>
+        <div class="lp-stat-row">
+          <span class="lp-stat-label">TSLA</span>
+          <div>
+            <span class="lp-stat-val mp-tsla-price">$--</span>
+            <span class="lp-stat-change mp-tsla-pct pos">▲ --%</span>
+          </div>
+        </div>
+        <div class="lp-stat-row">
+            <span class="lp-stat-label">SPCX</span>
+              <div>
+                <span class="lp-stat-val mp-spcx-price">$135.00</span>
+                <span class="lp-stat-change mp-spcx-pct">PRE-IPO</span>
+              </div>
+        </div>
+        <div class="lp-stat-row">
+          <span class="lp-stat-label">XOVR ETF</span>
+          <div>
+            <span class="lp-stat-val mp-xovr-price">$--</span>
+            <span class="lp-stat-change mp-xovr-pct">--%</span>
+          </div>
+        </div>
+    </div>
+      <div class="lp-panel-section" style="flex:1;border-bottom:none">
+        <div class="lp-panel-title">Hot Topics</div>
+        <?php
+          $hot = get_posts(['numberposts' => 20, 'post_status' => 'publish']);
+          if ($hot) {
+            foreach ($hot as $post) {
+              echo '<div class="lp-hot-item" onclick="window.location=\'' . esc_url(get_permalink($post)) . '\'">→ ' . esc_html(get_the_title($post)) . '</div>';
+            }
+          } else {
+            foreach (['Cybercab Production Ramp','FSD: 7 New Cities','Optimus Mass Production','xAI + SpaceX Merger','Tesla Energy Record Q1'] as $item) {
+              echo '<div class="lp-hot-item">→ ' . esc_html($item) . '</div>';
+            }
+          }
+        ?>
+      </div>
+    </div>
+
+    <div class="lp-cards" id="latest">
+      <?php
+        $card_posts = get_posts(['numberposts' => 2, 'post_status' => 'publish']);
+        $cat_map = [
+          'spacex-ipo'  => ['tag-spacex', '#00c8ff'],
+          'tesla-news'  => ['tag-tesla',  '#f5a623'],
+          'xai-optimus' => ['tag-xai',    '#cc88ff'],
+        ];
+        if ($card_posts) {
+          foreach ($card_posts as $i => $post) {
+            $cats     = get_the_category($post->ID);
+            $slug     = $cats ? $cats[0]->slug : 'tesla-news';
+            $name     = $cats ? $cats[0]->name : 'Tesla News';
+            $m        = isset($cat_map[$slug]) ? $cat_map[$slug] : ['tag-invest','#00ff88'];
+            $excerpt  = wp_trim_words(get_the_excerpt($post), 18, '...');
+            $ago      = human_time_diff(get_post_time('U', false, $post), current_time('timestamp')) . ' ago';
+            $read     = max(1, ceil(str_word_count(strip_tags($post->post_content)) / 200));
+            echo '<div class="lp-card" style="--card-accent:' . esc_attr($m[1]) . '" onclick="window.location=\'' . esc_url(get_permalink($post)) . '\'">';
+            echo '<div class="lp-card-num">' . str_pad(2+$i,2,'0',STR_PAD_LEFT) . '</div>';
+            echo '<div class="lp-card-tag ' . esc_attr($m[0]) . '"><span class="dot"></span>' . esc_html($name) . '</div>';
+            echo '<h3>' . esc_html(get_the_title($post)) . '</h3>';
+            echo '<p>' . esc_html($excerpt) . '</p>';
+            echo '<div class="lp-card-meta"><span>' . esc_html($ago) . '</span><span>' . esc_html($read) . ' min read</span></div>';
+            echo '</div>';
+          }
+        } else { ?>
+          <div class="lp-card" style="--card-accent:#00c8ff">
+            <div class="lp-card-num">02</div>
+            <div class="lp-card-tag tag-spacex"><span class="dot"></span>SpaceX IPO</div>
+            <h3>SpaceX Files for the Largest IPO in History — Retail Gets 30%</h3>
+            <p>$1.75T valuation. S-1 expected May 15–22. June roadshow. Your complete playbook.</p>
+            <div class="lp-card-meta"><span>Coming soon</span></div>
+          </div>
+          <div class="lp-card" style="--card-accent:#f5a623">
+            <div class="lp-card-num">03</div>
+            <div class="lp-card-tag tag-tesla"><span class="dot"></span>Tesla</div>
+            <h3>Cybercab Rolls Off Giga Texas — Volume Production Has Started</h3>
+            <p>First purpose-built robotaxi in production Q2. What the ramp means for earnings.</p>
+            <div class="lp-card-meta"><span>Coming soon</span></div>
+          </div>
+        <?php } ?>
+    </div>
+
+  </div>
+</div><!-- /landing-page -->
+
+<!-- ══ SPLASH LAYERS ══ -->
+<canvas id="starfield"></canvas>
+<canvas id="smokeCanvas"></canvas>
+<div id="scanlines"></div>
+<div id="atmosphere"></div>
+<div id="scene">
+  <div id="groundGlow"></div><div id="heat"></div>
+  <div class="ground"></div><div class="tower"></div>
+  <div id="plume">
+    <div class="plume-outer"></div><div class="plume-core"></div>
+    <div class="shock-diamonds">
+      <div class="diamond"></div><div class="diamond"></div><div class="diamond"></div>
+    </div>
+  </div>
+  <div id="rocket">
+    <div class="nose"></div><div class="body2"></div><div class="interstage"></div><div class="body1"></div>
+    <div class="legs"><div class="leg"></div><div class="leg"></div><div class="leg"></div><div class="leg"></div><div class="leg"></div></div>
+    <div class="engines"><div class="engine"></div><div class="engine"></div><div class="engine"></div><div class="engine"></div></div>
+  </div>
+</div>
+<div id="hud">
+  <div class="hud-top">
+    <div class="hud-logo">MUSK<span>PULSE</span></div>
+    <div class="hud-status">
+      <div class="status-line active">● SYSTEMS NOMINAL</div>
+      <div class="status-line active">● PROPELLANT LOADED</div>
+      <div class="status-line warn">◆ T-MINUS SEQUENCE</div>
+    </div>
+  </div>
+</div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="telemetry">
+  <div class="telem-row"><div class="telem-label">Altitude</div><div class="telem-val" id="alt">0 KM</div><div class="telem-bar"><div class="telem-fill" id="altBar" style="width:0%"></div></div></div>
+  <div class="telem-row"><div class="telem-label">Velocity</div><div class="telem-val" id="vel">0 M/S</div><div class="telem-bar"><div class="telem-fill" id="velBar" style="width:0%"></div></div></div>
+  <div class="telem-row"><div class="telem-label">Throttle</div><div class="telem-val" id="throttle">0%</div><div class="telem-bar"><div class="telem-fill" id="throttleBar" style="width:0%;background:#ff9900"></div></div></div>
+  <div class="telem-row"><div class="telem-label">Stage</div><div class="telem-val" id="stage">PRE-LAUNCH</div></div>
+</div>
+<div class="mission-data">
+  <div class="mdata-row"><div class="telem-label">Mission</div><div class="telem-val">MV-001</div></div>
+  <div class="mdata-row"><div class="telem-label">Vehicle</div><div class="telem-val">FALCON 9</div></div>
+  <div class="mdata-row"><div class="telem-label">Payload</div><div class="telem-val">MUSKPULSE</div></div>
+  <div class="mdata-row"><div class="telem-label">Orbit</div><div class="telem-val">LEO 550KM</div></div>
+</div>
+<div id="countdown-wrap">
+  <div id="countdown-number">5</div>
+  <div id="countdown-label">T-MINUS</div>
+  <div id="mission-name">MISSION: MUSKPULSE LAUNCH</div>
+</div>
+<div id="liftoff-text"><span>LIFTOFF</span></div>
+<div id="flash"></div>
+
+<!-- JS loaded by direct URL — bypasses WP script loader and cache plugins -->
+<script src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/js/starfield.js"></script>
+<script src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/js/smoke.js"></script>
+<script src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/js/launch.js"></script>
+<script src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/js/stock.js"></script>
+
+<script>
+(function() {
+  var TARGET = new Date('2026-06-12T09:30:00-04:00');
+
+  function daysRemaining() {
+    var diff = Math.ceil((TARGET - new Date()) / 86400000);
+    return diff > 0 ? diff : 0;
+  }
+
+  function syncCountdowns() {
+    var days = daysRemaining();
+
+    // Sidebar / landing page big countdown numbers
+    var ipoNum  = document.getElementById('ipo-countdown');
+    if (ipoNum)  ipoNum.textContent  = days;
+
+    var ipoDays = document.getElementById('ipo-days');
+    if (ipoDays) ipoDays.textContent = days;
+
+    // "T-MINUS X DAYS" badge — find it by text content, wherever it lives
+    document.querySelectorAll('*').forEach(function(el) {
+      if (el.children.length === 0 && /T-MINUS\s+\d+\s+DAYS?/i.test(el.textContent)) {
+        el.textContent = el.textContent.replace(
+          /T-MINUS\s+\d+\s+DAYS?/i,
+          'T-MINUS ' + days + (days === 1 ? ' DAY' : ' DAYS')
+        );
+      }
+    });
+  }
+
+  setInterval(syncCountdowns, 1000);
+  syncCountdowns();
+})();
+</script>
+
+<!-- ══ NEWSLETTER POPUP ══════════════════════════════════════════ -->
+<div id="mp-newsletter-popup" role="dialog" aria-modal="true" aria-label="Join Mission Briefing">
+  <div class="mp-popup-panel">
+
+    <button class="mp-popup-close" id="mp-popup-close" aria-label="Close">✕</button>
+
+    <div class="mp-popup-corner mp-popup-tl"></div>
+    <div class="mp-popup-corner mp-popup-br"></div>
+
+    <div class="mp-popup-status">
+      <span class="live-dot"></span>
+      <span>SIGNAL INCOMING</span>
+    </div>
+
+    <div class="mp-popup-icon">◈</div>
+
+    <h2 class="mp-popup-title">Don't Miss the<br><span>Next Move.</span></h2>
+
+    <p class="mp-popup-sub">
+      Join investors tracking Tesla, SpaceX & the full Musk universe.
+      Weekly intelligence — no noise.
+    </p>
+
+    <form class="mp-popup-form"
+          action="https://app.kit.com/forms/9428023/subscriptions"
+          method="post">
+      <input type="hidden" name="utf8" value="✓">
+      <input
+        class="mp-popup-input"
+        type="email"
+        name="email_address"
+        placeholder="your@email.com"
+        required
+        autocomplete="email">
+      <button type="submit" class="mp-popup-btn">
+        <span>JOIN MISSION BRIEFING →</span>
+      </button>
+    </form>
+
+    <p class="mp-popup-guarantee">No spam. Unsubscribe any time.</p>
+
+  </div>
+</div>
+
+<style>
+/* ── POPUP OVERLAY ─────────────────────────────────────────────── */
+#mp-newsletter-popup {
+  display:         none;
+  position:        fixed;
+  inset:           0;
+  z-index:         9000;
+  align-items:     center;
+  justify-content: center;
+  padding:         20px;
+  background:      rgba(2, 5, 8, 0.88);
+  backdrop-filter: blur(6px);
+  opacity:         0;
+  transition:      opacity 0.3s ease;
+}
+#mp-newsletter-popup.open { opacity: 1; }
+.mp-popup-panel {
+  position:   relative;
+  width:      100%;
+  max-width:  480px;
+  background: var(--surface);
+  border:     1px solid var(--border);
+  padding:    48px 40px 40px;
+  text-align: center;
+  transform:  translateY(24px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#mp-newsletter-popup.open .mp-popup-panel { transform: translateY(0); }
+.mp-popup-panel::before {
+  content:    '';
+  position:   absolute;
+  top: 0; left: 0; right: 0;
+  height:     2px;
+  background: linear-gradient(90deg, transparent, var(--accent) 30%, var(--red) 70%, transparent);
+}
+.mp-popup-panel::after {
+  content:          '';
+  position:         absolute;
+  inset:            0;
+  pointer-events:   none;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:  30px 30px;
+  z-index:          0;
+}
+.mp-popup-close {
+  position:    absolute;
+  top:         14px;
+  right:       14px;
+  background:  transparent;
+  border:      1px solid var(--border);
+  color:       var(--muted);
+  font-size:   12px;
+  width:       28px;
+  height:      28px;
+  cursor:      pointer;
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  transition:  border-color 0.15s, color 0.15s;
+  z-index:     2;
+  line-height: 1;
+}
+.mp-popup-close:hover { border-color: var(--red); color: var(--red); }
+.mp-popup-corner { position: absolute; width: 12px; height: 12px; z-index: 2; }
+.mp-popup-tl { top: 14px; left: 14px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+.mp-popup-br { bottom: 14px; right: 14px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+.mp-popup-status {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: 'Share Tech Mono', monospace; font-size: 9px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 20px; position: relative; z-index: 2;
+}
+.mp-popup-icon {
+  font-size: 36px; color: var(--accent);
+  text-shadow: 0 0 24px rgba(0,200,255,0.4);
+  margin-bottom: 16px; position: relative; z-index: 2;
+}
+.mp-popup-title {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: clamp(22px, 5vw, 30px); text-transform: uppercase;
+  color: #fff; line-height: 1.15; letter-spacing: -0.5px;
+  margin-bottom: 12px; position: relative; z-index: 2;
+}
+.mp-popup-title span { color: var(--accent); text-shadow: 0 0 20px rgba(0,200,255,0.35); }
+.mp-popup-sub {
+  font-size: 13px; color: var(--text-dim); line-height: 1.65;
+  font-weight: 300; margin-bottom: 28px; position: relative; z-index: 2;
+}
+.mp-popup-form { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 2; }
+.mp-popup-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; letter-spacing: 1px; padding: 12px 16px; outline: none;
+  transition: border-color 0.2s;
+}
+.mp-popup-input::placeholder { color: var(--muted); }
+.mp-popup-input:focus { border-color: var(--accent); }
+.mp-popup-btn {
+  width: 100%; background: var(--accent); border: none; color: var(--bg);
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; padding: 13px 20px;
+  cursor: pointer; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition: background 0.2s;
+}
+.mp-popup-btn:hover { background: #fff; }
+.mp-popup-guarantee {
+  font-family: 'Share Tech Mono', monospace; font-size: 9px;
+  letter-spacing: 1px; color: var(--muted); text-transform: uppercase;
+  margin-top: 14px; position: relative; z-index: 2;
+}
+@media (max-width: 600px) {
+  .mp-popup-panel { padding: 40px 20px 32px; }
+}
+</style>
+
+<script>
+/* ── LANDING PAGE POPUP — 10 second timer only ────────────────── */
+(function() {
+
+  /* 1 — Already subscribed? */
+  function hasCookie(name) {
+    return document.cookie.split(';').some(function(c) {
+      return c.trim().indexOf(name + '=') === 0;
+    });
+  }
+  if (hasCookie('mp_subscribed')) return;
+
+  /* 2 — Already shown this session? (shared key with article popup) */
+  if (sessionStorage.getItem('mp_popup_seen')) return;
+
+  var popup    = document.getElementById('mp-newsletter-popup');
+  var closeBtn = document.getElementById('mp-popup-close');
+  if (!popup) return;
+
+  /* 3 — Trigger: 10 seconds on page only (no scroll trigger on landing page) */
+  function openPopup() {
+    sessionStorage.setItem('mp_popup_seen', '1');
+    popup.style.display = 'flex';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { popup.classList.add('open'); });
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    popup.classList.remove('open');
+    setTimeout(function() {
+      popup.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  setTimeout(openPopup, 10000);
+
+  closeBtn.addEventListener('click', closePopup);
+  popup.addEventListener('click', function(e) {
+    if (e.target === popup) closePopup();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && popup.classList.contains('open')) closePopup();
+  });
+
+})();
+</script>
+
+<?php get_footer(); ?>

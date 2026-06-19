@@ -1,0 +1,133 @@
+<?php
+/**
+ * MuskPulse Theme — functions.php
+ *
+ * Responsibilities:
+ * - Enqueue all CSS and JS assets
+ * - Remove unused WordPress default output (emojis, RSD, generator tags)
+ * - No third-party theme dependency
+ */
+
+// ── SPLASH SCREEN TOGGLE ─────────────────────────────────────────────────
+// Set to false to disable the splash animation temporarily (e.g. high-traffic
+// events like IPO day). Set back to true afterward.
+define('MP_SPLASH_ENABLED', false);
+
+// ── ASSETS ──────────────────────────────────────────────────────────────────
+
+add_action('wp_enqueue_scripts', function() {
+
+  $uri = get_stylesheet_directory_uri();
+  $v   = '1.0';
+
+  // Global CSS — design tokens, reset, shared components
+  wp_enqueue_style('mp-global', $uri . '/css/global.css', [], $v);
+
+  // Homepage splash + landing page CSS (only on front page)
+  if (is_front_page()) {
+    wp_enqueue_style('mp-splash', $uri . '/css/splash.css', ['mp-global'], $v);
+  }
+
+  // Article and archive CSS — loads on single posts, category archives, Mission Feed, custom page templates, and error pages
+    if (is_single() || is_archive() || is_home() || is_404()
+        || is_page_template('page-mission-briefing.php')
+        || is_page_template('page-thank-you.php')
+        || is_page_template('page-spacex-ipo.php')) {
+      wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], $v);
+    }
+    
+
+  // Live TSLA stock price — loads on all pages except front page (splash handles its own JS)
+  if (!is_front_page()) {
+    wp_enqueue_script('mp-stock', $uri . '/js/stock.js', [], $v, true);
+  }
+
+});
+
+// ── REMOVE WORDPRESS BLOAT ───────────────────────────────────────────────────
+
+add_action('init', function() {
+  // Remove emoji scripts and styles — not needed
+  remove_action('wp_head',         'print_emoji_detection_script', 7);
+  remove_action('wp_print_styles', 'print_emoji_styles');
+
+  // Remove unused head tags
+  remove_action('wp_head', 'wp_generator');          // WordPress version (security risk)
+  remove_action('wp_head', 'wlwmanifest_link');      // Windows Live Writer (unused)
+  remove_action('wp_head', 'rsd_link');              // Really Simple Discovery (unused)
+  remove_action('wp_head', 'wp_shortlink_wp_head');  // Shortlink (unused)
+});
+
+// Remove oEmbed scripts (not needed for this site)
+remove_action('wp_head', 'wp_oembed_add_discovery_links');
+remove_action('wp_head', 'wp_oembed_add_host_js');
+
+// ── SUPPRESS "POWERED BY WORDPRESS" FOOTER ──────────────────────────────────
+// The Hostinger Reach plugin injects "MuskPulse is proudly powered by WordPress"
+// via wp_footer. Remove its callback and hide any remaining output via CSS.
+
+add_action('wp_footer', function() {
+  // Remove Hostinger Reach plugin footer callbacks
+  global $wp_filter;
+  if (isset($wp_filter['wp_footer'])) {
+    foreach ($wp_filter['wp_footer']->callbacks as $priority => $callbacks) {
+      foreach ($callbacks as $key => $callback) {
+        $fn = $callback['function'];
+        // Remove any callback from the Hostinger Reach plugin
+        if (is_array($fn) && is_object($fn[0])) {
+          $class = get_class($fn[0]);
+          if (stripos($class, 'hostinger') !== false || stripos($class, 'reach') !== false) {
+            unset($wp_filter['wp_footer']->callbacks[$priority][$key]);
+          }
+        } elseif (is_string($fn) && (stripos($fn, 'hostinger') !== false || stripos($fn, 'reach') !== false)) {
+          unset($wp_filter['wp_footer']->callbacks[$priority][$key]);
+        }
+      }
+    }
+  }
+}, 1);
+
+// CSS safety net — catches anything that slips through
+add_action('wp_head', function() {
+  echo '<style>
+    .site-info, #colophon, .powered-by,
+    [class*="powered-by"], [id*="powered-by"],
+    [class*="hostinger"], [id*="hostinger"],
+    .hostinger-reach-footer { display:none !important; }
+  </style>';
+});
+
+// ── THEME SUPPORT ────────────────────────────────────────────────────────────
+
+add_action('after_setup_theme', function() {
+  // Allow WordPress to manage the page title tag
+  add_theme_support('title-tag');
+
+  // Allow featured images on posts
+  add_theme_support('post-thumbnails');
+
+  // HTML5 markup for core elements
+  add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption']);
+});
+
+// ── READING TIME HELPER ──────────────────────────────────────────────────────
+// Used by single.php to display estimated read time
+
+function mp_reading_time() {
+  $word_count = str_word_count(strip_tags(get_the_content()));
+  return max(1, ceil($word_count / 200));
+}
+
+
+add_action('wp_print_scripts', function() {
+  if (!is_admin()) {
+    wp_dequeue_script('quicktags');
+    wp_dequeue_script('convertkit-admin-quicktags');
+  }
+}, 100);
+
+add_action('wp_print_styles', function() {
+  if (!is_admin()) {
+    wp_dequeue_style('convertkit-admin-quicktags');
+  }
+}, 100);

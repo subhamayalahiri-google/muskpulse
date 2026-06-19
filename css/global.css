@@ -1,0 +1,500 @@
+/*
+ * global.css
+ * Scope: loaded on every page.
+ * Contains: CSS custom properties (design tokens), minimal reset.
+ * Does NOT contain: splash styles, article styles — those are page-specific.
+ */
+ 
+/* ===== SELF-HOSTED FONTS ===== */
+@font-face {
+  font-display: swap;
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/orbitron-v35-latin/orbitron-v35-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/orbitron-v35-latin/orbitron-v35-latin-700.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/share-tech-mono-v16-latin/share-tech-mono-v16-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/exo-2-v26-latin/exo-2-v26-latin-300.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/exo-2-v26-latin/exo-2-v26-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/exo-2-v26-latin/exo-2-v26-latin-600.woff2') format('woff2');
+}
+/* ===== END SELF-HOSTED FONTS ===== */
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:        #020508;
+  --surface:   #050d14;
+  --surface2:  #070f18;
+  --border:    #0d3349;
+  --accent:    #00c8ff;
+  --red:       #e8274b;
+  --gold:      #f5a623;
+  --green:     #00ff88;
+  --purple:    #cc88ff;
+  --muted:     #4a6070;
+  --text:      #c8dde8;
+  --text-dim:  #8aa0b0;
+  --grid-line: rgba(0, 200, 255, 0.04);
+  --scan:      rgba(0, 0, 0, 0.12);
+}
+
+/* ── RESET ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin:      0;
+  padding:     0;
+  box-sizing:  border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:  var(--bg);
+  color:       var(--text);
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  min-height:  100vh;
+  overflow-x:  hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * MOBILE RESPONSIVE — Option C (Command Terminal)
+ * Scope: front-page lp-* elements on phones (≤768px).
+ * Desktop styles live in splash.css — nothing below changes them.
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Hidden on desktop, shown on mobile ─────────────────────────── */
+.lp-nav-tsla,
+.lp-alert-bar,
+.lp-market-strip,
+.lp-mob-tabs,
+.lp-nav-clock { display: none; }
+
+@keyframes mp-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* ── Mobile breakpoint ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ── NAV ── */
+  .lp-nav {
+    display:         flex !important;
+    align-items:     center;
+    flex-wrap:       nowrap;
+    padding:         10px 14px;
+    gap:             0;
+  }
+
+  /* Logo + clock stacked on the left */
+  .lp-nav-brand {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex-shrink:    0;
+  }
+  .lp-logo { font-size: 13px; letter-spacing: 2px; }
+  .lp-nav-clock {
+    display:         block;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       9px;
+    color:           var(--accent);
+    letter-spacing:  1px;
+    opacity:         0.75;
+  }
+
+  /* Hide desktop nav links + status bar */
+  .lp-nav-links  { display: none !important; }
+  .lp-status-bar { display: none !important; }
+
+  /* TSLA live price on the right */
+  .lp-nav-tsla {
+    display:        flex !important;
+    flex-direction: column;
+    align-items:    flex-end;
+    gap:            1px;
+    margin-left:    auto;
+  }
+  .lp-nav-tsla .mp-tsla-price {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      13px;
+    color:          var(--green);
+    letter-spacing: 0.5px;
+  }
+  .lp-nav-tsla .mp-tsla-pct {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      9px;
+    color:          var(--green);
+    opacity:        0.7;
+  }
+
+  /* ── ALERT BAR ── */
+  .lp-alert-bar {
+    display:     flex !important;
+    align-items: center;
+    gap:         8px;
+    background:  var(--red);
+    padding:     6px 14px;
+    overflow:    hidden;
+  }
+  .lp-alert-dot {
+    width:        6px;
+    height:       6px;
+    border-radius: 50%;
+    background:   #fff;
+    flex-shrink:  0;
+    animation:    mp-pulse 1s ease-in-out infinite;
+  }
+  .lp-alert-txt {
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       10px;
+    letter-spacing:  1.5px;
+    color:           #fff;
+    text-transform:  uppercase;
+    white-space:     nowrap;
+    overflow:        hidden;
+    text-overflow:   ellipsis;
+  }
+
+  /* ── MARKET STRIP ── */
+  .lp-market-strip {
+    display:       flex !important;
+    border-bottom: 1px solid var(--border);
+    background:    rgba(0, 200, 255, 0.02);
+  }
+  .lp-ms-cell {
+    flex:       1;
+    padding:    10px 0;
+    text-align: center;
+  }
+  .lp-ms-cell + .lp-ms-cell { border-left: 1px solid var(--border); }
+  .lp-ms-sym {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      8px;
+    color:          var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom:  3px;
+  }
+  .lp-ms-price {
+    font-family: 'Orbitron', monospace;
+    font-size:   11px;
+    font-weight: 600;
+    color:       var(--text);
+    line-height: 1;
+  }
+  .lp-ms-chg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size:   9px;
+    margin-top:  2px;
+  }
+
+  /* ── CATEGORY TABS ── */
+  .lp-mob-tabs {
+    display:                    flex !important;
+    overflow-x:                 auto;
+    scrollbar-width:            none;
+    border-bottom:              1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+  }
+  .lp-mob-tabs::-webkit-scrollbar { display: none; }
+  .lp-mob-tab {
+    flex-shrink:     0;
+    padding:         9px 14px;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       9px;
+    letter-spacing:  1.5px;
+    text-transform:  uppercase;
+    color:           var(--muted);
+    text-decoration: none;
+    white-space:     nowrap;
+    border-right:    1px solid var(--border);
+    border-bottom:   2px solid transparent;
+  }
+  .lp-mob-tab.active {
+    color:            var(--accent);
+    background:       rgba(0, 200, 255, 0.05);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── TICKER — keep, just smaller ── */
+  .lp-ticker { font-size: 9px !important; }
+
+  /* ── LANDING PAGE: scrollable container on mobile ──
+     #landing-page is position:fixed in splash.css (needed for the splash overlay).
+     Making it overflow-y:scroll turns it into its own scroll container so the
+     html/body overflow:hidden stays intact (rocket animation unaffected).        */
+  #landing-page {
+    overflow-y:                 scroll !important;
+    overflow-x:                 hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── MAIN GRID → single column, natural height ──
+     flex:1 + overflow:hidden in splash.css locks lp-main to the remaining
+     viewport height and clips hero content. Remove both on mobile.              */
+  .lp-main {
+    display:        flex !important;
+    flex-direction: column !important;
+    flex:           none !important;   /* was flex:1 — was forcing fixed height  */
+    overflow:       visible !important; /* was hidden — was clipping hero content */
+    height:         auto !important;
+    padding:        0 !important;
+    gap:            0 !important;
+  }
+
+  /* ── HERO ── */
+  .lp-hero {
+    padding:       20px 14px 18px !important;
+    border-bottom: 1px solid var(--border);
+    order:         1;
+  }
+  /* Hide corner decorations — too large on phone */
+  .lp-hero .c-tl,
+  .lp-hero .c-br { display: none !important; }
+
+  .invest-badge   { font-size: 8px !important; padding: 3px 8px !important; margin-bottom: 8px !important; }
+  .lp-mission-tag { font-size: 9px !important; margin-bottom: 8px !important; }
+
+  .lp-h1 {
+    font-size:     clamp(18px, 6.5vw, 26px) !important;
+    line-height:   1.2 !important;
+    margin-bottom: 10px !important;
+  }
+  .lp-h1 .w1, .lp-h1 .w2, .lp-h1 .w3 { display: block; }
+
+  .lp-sub {
+    font-size:     12px !important;
+    line-height:   1.65 !important;
+    color:         var(--text-dim);
+    margin-bottom: 14px !important;
+  }
+
+  .lp-cta-row {
+    flex-direction: column !important;
+    gap:            8px !important;
+  }
+  .lp-cta,
+  .lp-cta-ghost {
+    width:      100% !important;
+    text-align: center !important;
+    padding:    11px 14px !important;
+    font-size:  11px !important;
+  }
+
+  /* ── SIDE PANEL — hidden; data shown in market strip + alert bar ── */
+  .lp-side { display: none !important; }
+
+  /* ── ARTICLE CARDS → list style ── */
+  .lp-cards {
+    order:          2;
+    display:        flex !important;
+    flex-direction: column !important;
+    gap:            0 !important;
+    padding:        0 !important;
+  }
+  .lp-card {
+    border-radius: 0 !important;
+    border-left:   none !important;
+    border-right:  none !important;
+    border-top:    none !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding:       14px !important;
+  }
+  .lp-card-num  { font-size: 9px !important; opacity: 0.4; margin-bottom: 4px !important; }
+  .lp-card h3   { font-size: 13px !important; line-height: 1.4 !important; margin-bottom: 6px !important; }
+  .lp-card p    { font-size: 11px !important; line-height: 1.5 !important; color: var(--text-dim); margin-bottom: 8px !important; }
+  .lp-card-meta { font-size: 9px !important; }
+
+  /* ── Prevent horizontal overflow ── */
+  #landing-page { overflow-x: hidden; }
+
+}
+/* ── End mobile ──────────────────────────────────────────────────── */
+
+/* ═══════════════════════════════════════════════════════════════════
+ * mv-nav RESPONSIVE — shared nav (article, archive, category pages)
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Hamburger: hidden on desktop ────────────────────────────────── */
+.mv-hamburger { display: none; }
+
+/* ── Tablet fix (769px–1080px): stop nav links wrapping ─────────── */
+@media (min-width: 769px) and (max-width: 1080px) {
+  .mv-nav {
+    gap:        6px !important;
+    padding:    0 12px !important;
+  }
+  .mv-nav-links {
+    gap:        0 !important;
+    flex-shrink: 1;
+  }
+  .mv-nav-links li {
+    white-space: nowrap !important;   /* critical — prevents line breaks */
+  }
+  .mv-nav-links li a {
+    font-size:      8.5px !important;
+    letter-spacing: 0 !important;
+    padding:        0 8px !important;
+    white-space:    nowrap !important;
+  }
+  /* Hide verbose right-side text, keep dot + clock only */
+  .mv-live-label { display: none !important; }
+  .mv-nav-right  {
+    gap:        5px !important;
+    font-size:  9px !important;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+  }
+  /* Also cover lp-nav (homepage) at this width */
+  .lp-nav-links li {
+    white-space: nowrap !important;
+  }
+  .lp-nav-links li a {
+    font-size:      8.5px !important;
+    letter-spacing: 0 !important;
+    padding:        0 8px !important;
+    white-space:    nowrap !important;
+  }
+  .lp-status-bar {
+    font-size:  9px !important;
+    gap:        5px !important;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+  }
+}
+
+/* ── Mobile (768px and below): hamburger layout ─────────────────── */
+@media (max-width: 768px) {
+
+  /* Nav bar: logo left, hamburger right */
+  .mv-nav {
+    position:    relative;
+    display:     flex !important;
+    align-items: center;
+    padding:     10px 14px !important;
+    gap:         0 !important;
+    flex-wrap:   nowrap !important;
+  }
+  .mv-logo {
+    font-size:      13px !important;
+    letter-spacing: 2px !important;
+    margin-right:   auto;
+  }
+  /* Hide desktop links and status bar */
+  .mv-nav-links  { display: none !important; }
+  .mv-nav-right  { display: none !important; }
+
+  /* Hamburger button */
+  .mv-hamburger {
+    display:          flex !important;
+    flex-direction:   column;
+    justify-content:  center;
+    gap:              5px;
+    width:            36px;
+    height:           36px;
+    padding:          8px;
+    background:       transparent;
+    border:           1px solid var(--border);
+    border-radius:    6px;
+    cursor:           pointer;
+    flex-shrink:      0;
+    transition:       border-color 0.2s;
+  }
+  .mv-hamburger:hover { border-color: var(--accent); }
+  .mv-hamburger span {
+    display:          block;
+    width:            100%;
+    height:           1.5px;
+    background:       var(--accent);
+    border-radius:    2px;
+    transition:       transform 0.25s, opacity 0.25s;
+    transform-origin: center;
+  }
+  /* Animate to X when open */
+  .mv-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .mv-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .mv-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Dropdown menu panel */
+  /* Dropdown menu panel — display toggled by JS via inline style */
+  .mv-mobile-menu {
+    display:       none;
+    flex-direction: column;
+    background:    var(--surface);
+    border-bottom: 1px solid var(--border);
+    position:      relative;
+    z-index:       999;
+  }
+  /* (display is set to flex by JS on open) */
+
+  .mv-mobile-menu a {
+    display:         block;
+    padding:         13px 16px;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       11px;
+    letter-spacing:  2px;
+    text-transform:  uppercase;
+    color:           var(--text-dim);
+    text-decoration: none;
+    border-bottom:   1px solid var(--border);
+    transition:      color 0.15s, background 0.15s, padding-left 0.15s;
+  }
+  .mv-mobile-menu a:hover,
+  .mv-mobile-menu a:focus {
+    color:        var(--accent);
+    background:   rgba(0, 200, 255, 0.05);
+    padding-left: 22px;
+    outline:      none;
+  }
+  /* Footer row inside dropdown: live dot + clock */
+  .mv-mobile-menu-foot {
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+    padding:     10px 16px;
+    opacity:     0.5;
+  }
+  .mv-mob-clock {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      10px;
+    letter-spacing: 1px;
+    color:          var(--accent);
+  }
+
+  /* Prevent body scroll when menu open — toggled by JS if needed */
+  body.mv-menu-open { overflow: hidden; }
+}
+/* ── End mv-nav responsive ───────────────────────────────────────── */
