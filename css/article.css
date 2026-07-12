@@ -130,11 +130,17 @@ body::after {
   padding: 9px 0; overflow: hidden;
 }
 .mv-ticker-track {
-  display: flex; gap: 60px; white-space: nowrap;
+  display: flex; white-space: nowrap;
   animation: tkScroll 22s linear infinite;
   font-family: 'Share Tech Mono', monospace;
   font-size: 11px; letter-spacing: 1px; color: var(--muted);
 }
+/* Content is duplicated twice (see template-parts/ticker.php) so the loop
+   can jump from -50% back to 0% unnoticed. That only lines up seamlessly
+   if each item's spacing trails it via margin — flex `gap` doesn't add
+   space after the last child, which throws off the -50% midpoint by half
+   a gap-width and makes the loop visibly snap/jump once per cycle. */
+.mv-ticker-track > * { margin-right: 60px; }
 @keyframes tkScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .mv-ticker-track b   { color: var(--accent); }
 .mv-ticker-track .up { color: var(--green); }

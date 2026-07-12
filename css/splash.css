@@ -299,7 +299,12 @@ html, body {
 
 /* LP Ticker */
 .lp-ticker { position:relative; z-index:10; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:rgba(5,13,20,.85); padding:9px 0; overflow:hidden; opacity:0; transition:opacity 1.2s ease .5s; }
-.lp-ticker-track { display:flex; gap:60px; white-space:nowrap; animation:tkScroll 22s linear infinite; font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:1px; color:var(--muted); }
+.lp-ticker-track { display:flex; white-space:nowrap; animation:tkScroll 22s linear infinite; font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:1px; color:var(--muted); }
+/* Content is duplicated twice (see template-parts/ticker.php) for a seamless
+   -50% loop; flex `gap` doesn't add trailing space after the last child, which
+   throws the midpoint off by half a gap and makes the loop visibly snap once
+   per cycle. Trailing margin on every item keeps both halves symmetric. */
+.lp-ticker-track > * { margin-right: 60px; }
 .lp-ticker-track b   { color: var(--accent); }
 .lp-ticker-track .up { color: var(--green);  }
 .lp-ticker-track .sep{ color: var(--border); }
