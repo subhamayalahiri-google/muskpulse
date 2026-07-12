@@ -9,9 +9,10 @@
 ?>
 <div class="mp-cookie-banner" id="mpCookieBanner" style="display:none">
   <p class="mp-cookie-text">
-    This site uses cookies to remember your preferences and understand how it's used. By continuing, you agree to our use of cookies.
+    This site uses cookies, including for analytics and ad personalization. Accept to allow all cookies, or reject to keep only what's needed for the site to function.
   </p>
   <div class="mp-cookie-actions">
+    <button class="mp-cookie-reject" id="mpCookieReject" type="button">Reject</button>
     <button class="mp-cookie-accept" id="mpCookieAccept" type="button">Accept</button>
   </div>
 </div>

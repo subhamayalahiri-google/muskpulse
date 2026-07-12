@@ -691,24 +691,36 @@ body {
   max-width:   720px;
   margin:      0;
 }
-.mp-cookie-actions { flex-shrink: 0; }
-.mp-cookie-accept {
+.mp-cookie-actions { flex-shrink: 0; display: flex; gap: 10px; }
+.mp-cookie-accept,
+.mp-cookie-reject {
   font-family:    'Orbitron', monospace;
   font-size:      10px;
   font-weight:    700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color:          var(--accent);
-  background:     transparent;
-  border:         1px solid var(--accent);
   padding:        12px 24px;
   cursor:         pointer;
   clip-path:      polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  transition:     color 0.2s, background 0.2s;
+  transition:     color 0.2s, background 0.2s, border-color 0.2s;
+}
+.mp-cookie-accept {
+  color:      var(--accent);
+  background: transparent;
+  border:     1px solid var(--accent);
 }
 .mp-cookie-accept:hover {
   color:      var(--bg);
   background: var(--accent);
+}
+.mp-cookie-reject {
+  color:      var(--muted);
+  background: transparent;
+  border:     1px solid var(--border);
+}
+.mp-cookie-reject:hover {
+  color:        var(--text);
+  border-color: var(--muted);
 }
 
 @media (max-width: 600px) {
@@ -718,5 +730,7 @@ body {
     gap:            14px;
     padding:        16px;
   }
-  .mp-cookie-accept { width: 100%; }
+  .mp-cookie-actions { flex-direction: column; }
+  .mp-cookie-accept,
+  .mp-cookie-reject { width: 100%; }
 }
