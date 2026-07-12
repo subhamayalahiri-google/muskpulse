@@ -122,6 +122,13 @@ body {
   overflow: visible !important; /* was hidden — was clipping content below the fold */
   height:   auto !important;
 }
+/* .lp-main's content is now much taller than one viewport (Mission Feed
+   renders below the fold), so it no longer absorbs all the column flex's
+   sizing. Without this, #landing-page's flexbox shrinks its OTHER children
+   (nav, ticker — both default to flex-shrink:1) to force everything back
+   into the fixed 100vh box, compressing the ticker below its own content
+   height and clipping it. */
+.lp-nav, .lp-ticker { flex-shrink: 0; }
 
 /* ── Mobile breakpoint ───────────────────────────────────────────── */
 @media (max-width: 768px) {
