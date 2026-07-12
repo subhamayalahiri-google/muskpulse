@@ -14,7 +14,11 @@
 $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock';
 ?>
 <nav class="mv-nav" id="mvNav">
-  <a href="<?php echo esc_url(home_url('/')); ?>" class="mv-logo">MUSK<span>PULSE</span></a>
+  <div class="mv-nav-brand">
+    <a href="<?php echo esc_url(home_url('/')); ?>" class="mv-logo">MUSK<span>PULSE</span></a>
+    <!-- Mobile only: UTC clock under the logo, matching the front page -->
+    <span id="<?php echo $clock_id; ?>-top" class="mv-nav-clock mp-clock">00:00:00 UTC</span>
+  </div>
   <ul class="mv-nav-links" id="mvNavLinks">
     <li><a href="<?php echo esc_url(home_url('/mission-feed')); ?>">Mission Feed</a></li>
     <li><a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a></li>
@@ -48,14 +52,17 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
 (function() {
   // Desktop clock
   var clockEl = document.getElementById('<?php echo $clock_id; ?>');
-  // Mobile clock (same time, separate element)
+  // Mobile clock in the opened dropdown menu (same time, separate element)
   var clockMob = document.getElementById('<?php echo $clock_id; ?>-mob');
+  // Mobile clock under the logo, always visible (same time, separate element)
+  var clockTop = document.getElementById('<?php echo $clock_id; ?>-top');
   function tick() {
     var n = new Date();
     var p = function(v) { return String(v).padStart(2,'0'); };
     var t = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
     if (clockEl)  clockEl.textContent  = t;
     if (clockMob) clockMob.textContent = t;
+    if (clockTop) clockTop.textContent = t;
   }
   setInterval(tick, 1000);
   tick();

@@ -98,7 +98,8 @@ body {
 .lp-alert-bar,
 .lp-market-strip,
 .lp-mob-tabs,
-.lp-nav-clock { display: none; }
+.lp-nav-clock,
+.mv-nav-clock { display: none; }
 
 @keyframes mp-pulse {
   0%, 100% { opacity: 1; }
@@ -401,10 +402,24 @@ body {
     gap:         0 !important;
     flex-wrap:   nowrap !important;
   }
+  .mv-nav-brand {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex-shrink:    0;
+    margin-right:   auto;
+  }
   .mv-logo {
     font-size:      13px !important;
     letter-spacing: 2px !important;
-    margin-right:   auto;
+  }
+  .mv-nav-clock {
+    display:         block;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       9px;
+    color:           var(--accent);
+    letter-spacing:  1px;
+    opacity:         0.75;
   }
   /* Hide desktop links and status bar */
   .mv-nav-links  { display: none !important; }
