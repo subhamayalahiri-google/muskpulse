@@ -25,6 +25,7 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
     <span class="live-dot"></span>
     <span class="mv-live-label">LIVE FEED ACTIVE</span>
     <span id="<?php echo $clock_id; ?>" class="mp-clock">00:00:00 UTC</span>
+    <a href="<?php echo esc_url(home_url('/saved-posts')); ?>" class="mv-bookmark" aria-label="Saved posts">🔖</a>
   </div>
   <!-- Mobile only: hamburger -->
   <button class="mv-hamburger" id="mvHamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -37,6 +38,7 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
   <a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a>
   <a href="<?php echo esc_url(home_url('/category/spacex-ipo')); ?>">SpaceX IPO</a>
   <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a>
+  <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">🔖 Saved Posts</a>
   <div class="mv-mobile-menu-foot">
     <span class="live-dot"></span>
     <span id="<?php echo $clock_id; ?>-mob" class="mp-clock mv-mob-clock">00:00:00 UTC</span>

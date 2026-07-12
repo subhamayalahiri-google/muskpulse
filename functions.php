@@ -32,14 +32,20 @@ add_action('wp_enqueue_scripts', function() {
     if (is_single() || is_archive() || is_home() || is_404()
         || is_page_template('page-mission-briefing.php')
         || is_page_template('page-thank-you.php')
-        || is_page_template('page-spacex-ipo.php')) {
+        || is_page_template('page-spacex-ipo.php')
+        || is_page_template('page-saved-posts.php')) {
       wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], $v);
     }
-    
+
 
   // Live TSLA stock price — loads on all pages except front page (splash handles its own JS)
   if (!is_front_page()) {
     wp_enqueue_script('mp-stock', $uri . '/js/stock.js', [], $v, true);
+  }
+
+  // Saved Posts view — reads localStorage + WP REST API, only needed on that page
+  if (is_page_template('page-saved-posts.php')) {
+    wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', [], $v, true);
   }
 
 });

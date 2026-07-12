@@ -113,6 +113,12 @@ body::after {
   font-size: 10px; letter-spacing: 2px; color: var(--muted);
 }
 
+.mv-bookmark {
+  font-size: 15px; line-height: 1; text-decoration: none;
+  opacity: 0.75; transition: opacity .2s;
+}
+.mv-bookmark:hover { opacity: 1; }
+
 .live-dot {
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--green); box-shadow: 0 0 8px var(--green);
