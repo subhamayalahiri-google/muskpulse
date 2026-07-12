@@ -311,6 +311,10 @@ body {
   /* ── SIDE PANEL — hidden; data shown in market strip + alert bar ── */
   .lp-side { display: none !important; }
 
+  /* Feed must render after the hero (order:1 above) — without this it
+     defaults to order:0 and sorts before the hero in the column flex. */
+  .lp-social-feed { order: 2; }
+
   /* ── ARTICLE CARDS → list style ── */
   .lp-cards {
     order:          2;
