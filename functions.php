@@ -15,17 +15,25 @@ define('MP_SPLASH_ENABLED', false);
 
 // ── ASSETS ──────────────────────────────────────────────────────────────────
 
+// Per-file cache-busting version — uses each asset's own last-modified time
+// so browsers/host-level static caching (e.g. Hostinger's 7-day max-age on
+// CSS/JS) automatically fetch the new file after every deploy, with no
+// manual version bump needed on future edits.
+function mp_asset_version($rel_path) {
+  $path = get_stylesheet_directory() . $rel_path;
+  return file_exists($path) ? (string) filemtime($path) : '1.0';
+}
+
 add_action('wp_enqueue_scripts', function() {
 
   $uri = get_stylesheet_directory_uri();
-  $v   = '1.0';
 
   // Global CSS — design tokens, reset, shared components
-  wp_enqueue_style('mp-global', $uri . '/css/global.css', [], $v);
+  wp_enqueue_style('mp-global', $uri . '/css/global.css', [], mp_asset_version('/css/global.css'));
 
   // Homepage splash + landing page CSS (only on front page)
   if (is_front_page()) {
-    wp_enqueue_style('mp-splash', $uri . '/css/splash.css', ['mp-global'], $v);
+    wp_enqueue_style('mp-splash', $uri . '/css/splash.css', ['mp-global'], mp_asset_version('/css/splash.css'));
   }
 
   // Article and archive CSS — loads on single posts, category archives, Mission Feed, custom page templates, and error pages
@@ -34,18 +42,18 @@ add_action('wp_enqueue_scripts', function() {
         || is_page_template('page-thank-you.php')
         || is_page_template('page-spacex-ipo.php')
         || is_page_template('page-saved-posts.php')) {
-      wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], $v);
+      wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], mp_asset_version('/css/article.css'));
     }
 
 
   // Live TSLA stock price — loads on all pages except front page (splash handles its own JS)
   if (!is_front_page()) {
-    wp_enqueue_script('mp-stock', $uri . '/js/stock.js', [], $v, true);
+    wp_enqueue_script('mp-stock', $uri . '/js/stock.js', [], mp_asset_version('/js/stock.js'), true);
   }
 
   // Saved Posts view — reads localStorage + WP REST API, only needed on that page
   if (is_page_template('page-saved-posts.php')) {
-    wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', [], $v, true);
+    wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', [], mp_asset_version('/js/saved-posts.js'), true);
   }
 
 });

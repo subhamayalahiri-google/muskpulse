@@ -22,6 +22,7 @@
       <li><a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a></li>
       <li><a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a></li>
       <li><a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a></li>
+      <li><a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a></li>
     </ul>
     <div class="lp-status-bar">
       <span class="live-dot"></span>
