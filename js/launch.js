@@ -76,11 +76,20 @@
   }
 
   // ── LIVE CLOCK ─────────────────────────────────────────────────
+  // Local timezone abbreviation (e.g. "EST", "PDT"), computed once.
+  const tzLabel = (() => {
+    try {
+      const part = Intl.DateTimeFormat(undefined, { timeZoneName: 'short' })
+        .formatToParts(new Date())
+        .find(p => p.type === 'timeZoneName');
+      return part ? part.value : '';
+    } catch (e) { return ''; }
+  })();
   function updateClock() {
     if (!dom.clock) return;
     const n = new Date();
     const pad = v => String(v).padStart(2, '0');
-    dom.clock.textContent = `${pad(n.getUTCHours())}:${pad(n.getUTCMinutes())}:${pad(n.getUTCSeconds())} UTC`;
+    dom.clock.textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}${tzLabel ? ' ' + tzLabel : ''}`;
   }
   setInterval(updateClock, 1000);
   updateClock();

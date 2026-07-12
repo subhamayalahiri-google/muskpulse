@@ -15,7 +15,7 @@
   <nav class="lp-nav" id="lpNav">
     <div class="lp-nav-brand">
       <div class="lp-logo">MUSK<span>PULSE</span></div>
-      <span class="lp-nav-clock" id="lpNavClock">00:00:00 UTC</span>
+      <span class="lp-nav-clock" id="lpNavClock">00:00:00</span>
     </div>
     <ul class="lp-nav-links">
       <li><a href="<?php echo esc_url(home_url('/mission-feed')); ?>">Mission Feed</a></li>
@@ -27,7 +27,7 @@
     <div class="lp-status-bar">
       <span class="live-dot"></span>
       <span>LIVE FEED ACTIVE</span>
-      <span class="mp-clock">00:00:00 UTC</span>
+      <span class="mp-clock">00:00:00</span>
     </div>
     <!-- Mobile only: hamburger (reuses .mv-hamburger/.mv-mobile-menu from
          template-parts/site-nav.php, already loaded via global.css) -->
@@ -43,16 +43,35 @@
     <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
     <div class="mv-mobile-menu-foot">
       <span class="live-dot"></span>
-      <span class="mp-clock mv-mob-clock">00:00:00 UTC</span>
+      <span class="mp-clock mv-mob-clock">00:00:00</span>
     </div>
   </div>
   <script>
   (function(){
-    var el = document.getElementById('lpNavClock');
-    if (el) {
+    // All of this page's own clocks — status bar (desktop) and the mobile
+    // dropdown's footer clock aren't reliably driven by anything else, so
+    // this script owns all three directly rather than relying on a shared
+    // global updater.
+    var clockNav    = document.getElementById('lpNavClock');
+    var clockStatus = document.querySelector('.lp-status-bar .mp-clock');
+    var clockMob    = document.querySelector('#lpMobileMenu .mp-clock');
+
+    if (clockNav || clockStatus || clockMob) {
+      // Local timezone abbreviation (e.g. "EST", "PDT"), computed once.
+      var tzLabel = (function() {
+        try {
+          var part = Intl.DateTimeFormat(undefined, { timeZoneName: 'short' })
+            .formatToParts(new Date())
+            .find(function (p) { return p.type === 'timeZoneName'; });
+          return part ? part.value : '';
+        } catch (e) { return ''; }
+      })();
       var tick = function() {
         var n = new Date(), p = function(v){ return String(v).padStart(2,'0'); };
-        el.textContent = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
+        var t = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds()) + (tzLabel ? ' ' + tzLabel : '');
+        if (clockNav)    clockNav.textContent    = t;
+        if (clockStatus) clockStatus.textContent = t;
+        if (clockMob)    clockMob.textContent    = t;
       };
       setInterval(tick, 1000); tick();
     }

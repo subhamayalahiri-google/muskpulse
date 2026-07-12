@@ -8,7 +8,7 @@
  *   get_template_part('template-parts/site-nav', null, ['clock_id' => 'live-clock']);
  *
  * Args:
- *   clock_id (string) — ID for the UTC clock span. Defaults to 'live-clock'.
+ *   clock_id (string) — ID for the local-time clock span. Defaults to 'live-clock'.
  *                       Use a unique ID per page if multiple templates load this.
  */
 $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock';
@@ -16,8 +16,8 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
 <nav class="mv-nav" id="mvNav">
   <div class="mv-nav-brand">
     <a href="<?php echo esc_url(home_url('/')); ?>" class="mv-logo">MUSK<span>PULSE</span></a>
-    <!-- Mobile only: UTC clock under the logo, matching the front page -->
-    <span id="<?php echo $clock_id; ?>-top" class="mv-nav-clock mp-clock">00:00:00 UTC</span>
+    <!-- Mobile only: local-time clock under the logo, matching the front page -->
+    <span id="<?php echo $clock_id; ?>-top" class="mv-nav-clock mp-clock">00:00:00</span>
   </div>
   <ul class="mv-nav-links" id="mvNavLinks">
     <li><a href="<?php echo esc_url(home_url('/mission-feed')); ?>">Mission Feed</a></li>
@@ -29,7 +29,7 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
   <div class="mv-nav-right">
     <span class="live-dot"></span>
     <span class="mv-live-label">LIVE FEED ACTIVE</span>
-    <span id="<?php echo $clock_id; ?>" class="mp-clock">00:00:00 UTC</span>
+    <span id="<?php echo $clock_id; ?>" class="mp-clock">00:00:00</span>
   </div>
   <!-- Mobile only: hamburger -->
   <button class="mv-hamburger" id="mvHamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -45,7 +45,7 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
   <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
   <div class="mv-mobile-menu-foot">
     <span class="live-dot"></span>
-    <span id="<?php echo $clock_id; ?>-mob" class="mp-clock mv-mob-clock">00:00:00 UTC</span>
+    <span id="<?php echo $clock_id; ?>-mob" class="mp-clock mv-mob-clock">00:00:00</span>
   </div>
 </div>
 <script>
@@ -56,10 +56,20 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
   var clockMob = document.getElementById('<?php echo $clock_id; ?>-mob');
   // Mobile clock under the logo, always visible (same time, separate element)
   var clockTop = document.getElementById('<?php echo $clock_id; ?>-top');
+  // Local timezone abbreviation (e.g. "EST", "PDT"), computed once — doesn't
+  // change tick to tick, so no need to recompute it every second.
+  var tzLabel = (function() {
+    try {
+      var part = Intl.DateTimeFormat(undefined, { timeZoneName: 'short' })
+        .formatToParts(new Date())
+        .find(function (p) { return p.type === 'timeZoneName'; });
+      return part ? part.value : '';
+    } catch (e) { return ''; }
+  })();
   function tick() {
     var n = new Date();
     var p = function(v) { return String(v).padStart(2,'0'); };
-    var t = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
+    var t = p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds()) + (tzLabel ? ' ' + tzLabel : '');
     if (clockEl)  clockEl.textContent  = t;
     if (clockMob) clockMob.textContent = t;
     if (clockTop) clockTop.textContent = t;
