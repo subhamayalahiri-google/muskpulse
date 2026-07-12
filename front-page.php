@@ -142,6 +142,7 @@
         <a href="<?php echo esc_url(home_url('/mission-briefing')); ?>" class="lp-cta"><span>Join Mission Briefing →</span></a>
         <a href="#latest" class="lp-cta-ghost">↓ Latest Intel</a>
       </div>
+      <p class="lp-disclaimer">Not financial advice. For educational and informational purposes only.</p>
       <div class="c-br"></div>
     </div>
 
