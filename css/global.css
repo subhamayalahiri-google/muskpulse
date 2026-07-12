@@ -567,6 +567,56 @@ body {
 .lp-sf-save.saved { color: var(--gold); }
 .lp-sf-save.saved .lp-sf-ico { text-shadow: 0 0 6px var(--gold); }
 
+/* "Share to..." popover (js/share-popover.js) — appended to <body> as
+   position:fixed, positioned via JS, so it isn't clipped by any card's
+   overflow:hidden. */
+.lp-share-pop {
+  position:      fixed;
+  z-index:       500;
+  min-width:     168px;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  box-shadow:    0 12px 32px rgba(0, 0, 0, 0.5);
+  padding:       6px;
+  display:       flex;
+  flex-direction: column;
+  gap:           2px;
+}
+.lp-share-opt {
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  padding:         8px 10px;
+  background:      none;
+  border:          none;
+  cursor:          pointer;
+  font-family:     'Share Tech Mono', monospace;
+  font-size:       11px;
+  letter-spacing:  0.5px;
+  color:           var(--text);
+  text-decoration: none;
+  text-align:      left;
+  transition:      background 0.15s;
+}
+.lp-share-opt:hover { background: rgba(0, 200, 255, 0.06); }
+.lp-share-badge {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           22px;
+  height:          22px;
+  flex-shrink:     0;
+  font-family:     'Orbitron', monospace;
+  font-size:       11px;
+  font-weight:     700;
+  color:           #fff;
+  border-radius:   4px;
+}
+.lp-share-badge.facebook { background: #1877f2; }
+.lp-share-badge.x        { background: #000;    }
+.lp-share-badge.linkedin { background: #0a66c2; font-size: 9px; }
+.lp-share-badge.copy     { background: var(--surface2); color: var(--accent); }
+
 /* Fade-out transition when unsaving a card (Saved Posts view) */
 .lp-sf-card.sp-removing {
   opacity:    0;

@@ -53,15 +53,21 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_script('mp-stock', $uri . '/js/stock.js', [], mp_asset_version('/js/stock.js'), true);
   }
 
+  // "Share to..." popover (Facebook/X/LinkedIn/Copy Link) — needed on every
+  // page that has Share buttons, loaded as a dependency of both scripts below
+  if (is_front_page() || is_archive() || is_home() || is_page_template('page-spacex-ipo.php') || is_page_template('page-saved-posts.php')) {
+    wp_enqueue_script('mp-share-popover', $uri . '/js/share-popover.js', [], mp_asset_version('/js/share-popover.js'), true);
+  }
+
   // Saved Posts view — reads localStorage + WP REST API, only needed on that page
   if (is_page_template('page-saved-posts.php')) {
-    wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', [], mp_asset_version('/js/saved-posts.js'), true);
+    wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', ['mp-share-popover'], mp_asset_version('/js/saved-posts.js'), true);
   }
 
   // Share/Save actions for server-rendered .archive-card grids (front page,
   // Mission Feed, category archives, SpaceX IPO landing page)
   if (is_front_page() || is_archive() || is_home() || is_page_template('page-spacex-ipo.php')) {
-    wp_enqueue_script('mp-card-actions', $uri . '/js/card-actions.js', [], mp_asset_version('/js/card-actions.js'), true);
+    wp_enqueue_script('mp-card-actions', $uri . '/js/card-actions.js', ['mp-share-popover'], mp_asset_version('/js/card-actions.js'), true);
   }
 
 });

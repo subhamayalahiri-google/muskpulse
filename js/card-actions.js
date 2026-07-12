@@ -43,16 +43,7 @@
 
     if (shareBtn) {
       var title = card.querySelector('.archive-card-title').textContent;
-      if (navigator.share) {
-        navigator.share({ title: title, url: url }).catch(function () {});
-      } else if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(function () {
-          shareBtn.innerHTML = '<span class="lp-sf-ico">✓</span> Copied';
-          setTimeout(function () {
-            shareBtn.innerHTML = '<span class="lp-sf-ico">↗</span> Share';
-          }, 1800);
-        });
-      }
+      if (window.MPSharePopover) window.MPSharePopover.toggle(shareBtn, url, title);
     }
 
     if (saveBtn) {
