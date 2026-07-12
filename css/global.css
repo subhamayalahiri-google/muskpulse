@@ -106,6 +106,23 @@ body {
   50%       { opacity: 0.35; }
 }
 
+/* ── FRONT PAGE SCROLL — unscoped (all widths) ──
+   #landing-page is position:fixed + html/body overflow:hidden in splash.css
+   (needed for the splash overlay/rocket animation). Making #landing-page its
+   own scroll container, and un-clipping .lp-main's fixed height, lets the
+   Mission Feed render below the hero on any screen size without touching the
+   rocket animation or the hero/side-panel 3-column grid above the fold.      */
+#landing-page {
+  overflow-y:                 scroll !important;
+  overflow-x:                 hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+.lp-main {
+  flex:     none !important; /* was flex:1 — was forcing fixed viewport height */
+  overflow: visible !important; /* was hidden — was clipping content below the fold */
+  height:   auto !important;
+}
+
 /* ── Mobile breakpoint ───────────────────────────────────────────── */
 @media (max-width: 768px) {
 
@@ -252,25 +269,13 @@ body {
   /* ── TICKER — keep, just smaller ── */
   .lp-ticker { font-size: 9px !important; }
 
-  /* ── LANDING PAGE: scrollable container on mobile ──
-     #landing-page is position:fixed in splash.css (needed for the splash overlay).
-     Making it overflow-y:scroll turns it into its own scroll container so the
-     html/body overflow:hidden stays intact (rocket animation unaffected).        */
-  #landing-page {
-    overflow-y:                 scroll !important;
-    overflow-x:                 hidden !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ── MAIN GRID → single column, natural height ──
-     flex:1 + overflow:hidden in splash.css locks lp-main to the remaining
-     viewport height and clips hero content. Remove both on mobile.              */
+  /* ── MAIN GRID → single column ──
+     Scroll + natural height already apply at all widths (see the unscoped
+     rule above); mobile additionally collapses the 3-column grid to a
+     single stacked column.                                                   */
   .lp-main {
     display:        flex !important;
     flex-direction: column !important;
-    flex:           none !important;   /* was flex:1 — was forcing fixed height  */
-    overflow:       visible !important; /* was hidden — was clipping hero content */
-    height:         auto !important;
     padding:        0 !important;
     gap:            0 !important;
   }
@@ -499,11 +504,23 @@ body {
 }
 /* ── End mv-nav responsive ───────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════════
- * SOCIAL FEED — mobile-only LinkedIn-style post wall (front page)
+ * SOCIAL FEED — LinkedIn-style post wall (front page), shown at all
+ * widths. Replaces the old 2-card .lp-cards teaser (now hidden everywhere,
+ * see below) — on desktop it renders as a new full-width section below
+ * the hero/side-panel grid, once the page becomes scrollable.
  * ═══════════════════════════════════════════════════════════════════ */
 
-/* Hidden on desktop — desktop keeps the lp-cards grid */
-.lp-social-feed { display: none; }
+/* Occupies the hero grid's card slot on desktop (grid-column:span 2,
+   same as .lp-cards used to); harmless on mobile where .lp-main switches
+   to a single-column flex layout and grid-column has no effect. */
+.lp-social-feed {
+  display:        flex;
+  flex-direction: column;
+  grid-column:    span 2;
+}
+
+/* Teaser cards replaced by the full feed above — hidden at all widths */
+.lp-cards { display: none !important; }
 
 /* ── POST CARD — used by the mobile social feed AND the Saved Posts view,
    so these rules are unscoped (not tied to the 768px breakpoint) ── */
@@ -647,14 +664,10 @@ body {
 
 @media (max-width: 768px) {
 
-  /* Feed replaces the old cards on mobile */
-  .lp-cards { display: none !important; }
-
-  .lp-social-feed {
-    display:        flex;
-    flex-direction: column;
-    order:          2;
-  }
+  /* .lp-main is flex-column here (see MAIN GRID rule above) — place the
+     feed after the hero in stack order. grid-column:span 2 (set above) is
+     simply ignored by the flex layout. */
+  .lp-social-feed { order: 2; }
 
 }
 /* ── End social feed ─────────────────────────────────────────────── */

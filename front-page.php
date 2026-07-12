@@ -139,7 +139,7 @@
       </div>
     </div>
 
-    <div class="lp-cards" id="latest">
+    <div class="lp-cards">
       <?php
         $card_posts = get_posts(['numberposts' => 2, 'post_status' => 'publish']);
         $cat_map = [
@@ -182,11 +182,11 @@
         <?php } ?>
     </div>
 
-    <!-- ══ MOBILE ONLY: SOCIAL FEED (post wall) ══ -->
-    <div class="lp-social-feed">
+    <!-- ══ SOCIAL FEED (post wall) — shown on mobile and desktop ══ -->
+    <div class="lp-social-feed" id="latest">
       <div class="lp-sf-header">// MISSION FEED</div>
       <?php
-        $sf_posts = get_posts(['numberposts' => 8, 'post_status' => 'publish']);
+        $sf_posts = get_posts(['numberposts' => 10, 'post_status' => 'publish']);
         $sf_cat_colors = [
           'spacex-ipo'  => '#00c8ff',
           'tesla-news'  => '#f5a623',
