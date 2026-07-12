@@ -662,3 +662,61 @@ body {
 }
 
 #footer { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+ * COOKIE CONSENT BANNER — every page (injected via wp_footer, see
+ * template-parts/cookie-banner.php + js/cookie-consent.js)
+ * ═══════════════════════════════════════════════════════════════════ */
+.mp-cookie-banner {
+  display:        none; /* switched to flex by JS once needed */
+  position:       fixed;
+  left:           0;
+  right:          0;
+  bottom:         0;
+  z-index:        900;
+  align-items:    center;
+  justify-content: space-between;
+  gap:            20px;
+  padding:        16px 24px;
+  background:     var(--surface);
+  border-top:     1px solid var(--border);
+  box-shadow:     0 -8px 24px rgba(0, 0, 0, 0.4);
+}
+.mp-cookie-text {
+  font-family: 'Exo 2', sans-serif;
+  font-size:   13px;
+  font-weight: 300;
+  line-height: 1.6;
+  color:       var(--text-dim);
+  max-width:   720px;
+  margin:      0;
+}
+.mp-cookie-actions { flex-shrink: 0; }
+.mp-cookie-accept {
+  font-family:    'Orbitron', monospace;
+  font-size:      10px;
+  font-weight:    700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color:          var(--accent);
+  background:     transparent;
+  border:         1px solid var(--accent);
+  padding:        12px 24px;
+  cursor:         pointer;
+  clip-path:      polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition:     color 0.2s, background 0.2s;
+}
+.mp-cookie-accept:hover {
+  color:      var(--bg);
+  background: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .mp-cookie-banner {
+    flex-direction: column;
+    align-items:    stretch;
+    gap:            14px;
+    padding:        16px;
+  }
+  .mp-cookie-accept { width: 100%; }
+}

@@ -70,6 +70,16 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_script('mp-card-actions', $uri . '/js/card-actions.js', ['mp-share-popover'], mp_asset_version('/js/card-actions.js'), true);
   }
 
+  // Cookie consent banner — every page
+  wp_enqueue_script('mp-cookie-consent', $uri . '/js/cookie-consent.js', [], mp_asset_version('/js/cookie-consent.js'), true);
+
+});
+
+// ── COOKIE CONSENT BANNER ─────────────────────────────────────────────────
+// Hooked to wp_footer (not a template part called directly from each page
+// template) so it shows on every page without editing every template.
+add_action('wp_footer', function() {
+  get_template_part('template-parts/cookie-banner');
 });
 
 // ── REMOVE WORDPRESS BLOAT ───────────────────────────────────────────────────
