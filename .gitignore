@@ -1,6 +1,0 @@
-# Finnhub API key lives here — never commit
-../../mu-plugins/muskpulse-api.php
-
-.DS_Store
-*.log
-.vscode/sftp.json
