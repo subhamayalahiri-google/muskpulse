@@ -616,6 +616,7 @@ body {
 .lp-share-badge.x        { background: #000;    }
 .lp-share-badge.linkedin { background: #0a66c2; font-size: 9px; }
 .lp-share-badge.copy     { background: var(--surface2); color: var(--accent); }
+.lp-share-badge.more     { background: var(--surface2); color: var(--accent); }
 
 /* Fade-out transition when unsaving a card (Saved Posts view) */
 .lp-sf-card.sp-removing {

@@ -44,6 +44,20 @@
     var pop = document.createElement('div');
     pop.className = 'lp-share-pop';
 
+    // Native OS share sheet (Messages, WhatsApp, Instagram, Mail, AirDrop,
+    // etc.) — only offered where the browser actually supports it.
+    if (navigator.share) {
+      var moreBtn = document.createElement('button');
+      moreBtn.type = 'button';
+      moreBtn.className = 'lp-share-opt';
+      moreBtn.innerHTML = '<span class="lp-share-badge more">↗</span>More options…';
+      moreBtn.addEventListener('click', function () {
+        close();
+        navigator.share({ title: title, url: url }).catch(function () {});
+      });
+      pop.appendChild(moreBtn);
+    }
+
     platforms(url, title).forEach(function (p) {
       var a = document.createElement('a');
       a.className = 'lp-share-opt';
