@@ -768,6 +768,9 @@ body::after {
   font-weight: 700; font-size: 15px;
   line-height: 1.4; color: var(--text);
   margin-bottom: 12px; flex: 1;
+  text-decoration: none; /* archive pages use <h2> here (no underline); the front
+    page / Saved Posts use <a> for this same class, so reset it explicitly for
+    both to render identically */
 }
 .archive-card:hover .archive-card-title { color: #fff; }
 .archive-card-excerpt {
@@ -787,6 +790,7 @@ body::after {
   margin-left: auto;
   color: var(--accent); opacity: 0;
   transition: opacity .2s;
+  text-decoration: none; /* see .archive-card-title comment above */
 }
 .archive-card:hover .archive-card-read { opacity: 1; }
 
