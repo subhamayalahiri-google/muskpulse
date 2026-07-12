@@ -266,8 +266,8 @@ body {
     border-bottom-color: var(--accent);
   }
 
-  /* ── TICKER — keep, just smaller ── */
-  .lp-ticker { font-size: 9px !important; }
+  /* ── TICKER — hidden on mobile (both the front-page and standard variants) ── */
+  .lp-ticker, .mv-ticker { display: none !important; }
 
   /* ── MAIN GRID → single column ──
      Scroll + natural height already apply at all widths (see the unscoped
