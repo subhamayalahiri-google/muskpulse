@@ -58,6 +58,12 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_script('mp-saved-posts', $uri . '/js/saved-posts.js', [], mp_asset_version('/js/saved-posts.js'), true);
   }
 
+  // Share/Save actions for server-rendered .archive-card grids (front page,
+  // Mission Feed, category archives)
+  if (is_front_page() || is_archive() || is_home()) {
+    wp_enqueue_script('mp-card-actions', $uri . '/js/card-actions.js', [], mp_asset_version('/js/card-actions.js'), true);
+  }
+
 });
 
 // ── REMOVE WORDPRESS BLOAT ───────────────────────────────────────────────────

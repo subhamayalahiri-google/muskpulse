@@ -50,27 +50,34 @@
       $post_num = 1;
       if (have_posts()) :
         while (have_posts()) : the_post();
-          $cats   = get_the_category();
-          $p_slug = $cats ? $cats[0]->slug : 'tesla-news';
-          $p_name = $cats ? $cats[0]->name : 'Tesla News';
-          $p_map  = isset($cat_map[$p_slug]) ? $cat_map[$p_slug] : ['cat-invest','#00ff88','tag-invest'];
-          $excerpt = wp_trim_words(get_the_excerpt(), 22, '...');
-          $ago     = human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago';
-          $read    = max(1, ceil(str_word_count(strip_tags(get_the_content())) / 200));
+          $cats      = get_the_category();
+          $p_slug    = $cats ? $cats[0]->slug : 'tesla-news';
+          $p_name    = $cats ? $cats[0]->name : 'Tesla News';
+          $p_map     = isset($cat_map[$p_slug]) ? $cat_map[$p_slug] : ['cat-invest','#00ff88','tag-invest'];
+          $excerpt   = wp_trim_words(get_the_excerpt(), 22, '...');
+          $ago       = human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago';
+          $read      = max(1, ceil(str_word_count(strip_tags(get_the_content())) / 200));
+          $permalink = get_permalink();
     ?>
-      <article class="archive-card" onclick="window.location='<?php the_permalink(); ?>'">
+      <article class="archive-card lp-sf-card" data-url="<?php echo esc_url($permalink); ?>" data-id="<?php the_ID(); ?>">
         <div class="archive-card-inner">
           <div class="archive-card-num"><?php echo str_pad($post_num, 2, '0', STR_PAD_LEFT); ?></div>
           <div class="archive-card-tag <?php echo esc_attr($p_map[2]); ?>">
             <span class="dot"></span>
             <?php echo esc_html($p_name); ?>
           </div>
-          <h2 class="archive-card-title"><?php the_title(); ?></h2>
+          <a class="archive-card-title" href="<?php echo esc_url($permalink); ?>"><?php the_title(); ?></a>
           <p class="archive-card-excerpt"><?php echo esc_html($excerpt); ?></p>
           <div class="archive-card-meta">
             <span><?php echo esc_html($ago); ?></span>
             <span><?php echo esc_html($read); ?> min read</span>
-            <span class="archive-card-read">Read →</span>
+            <button class="lp-sf-action lp-sf-share" type="button">
+              <span class="lp-sf-ico">↗</span> Share
+            </button>
+            <button class="lp-sf-action lp-sf-save" type="button">
+              <span class="lp-sf-ico">◇</span> <span class="lp-sf-save-label">Save</span>
+            </button>
+            <a class="archive-card-read" href="<?php echo esc_url($permalink); ?>">Read →</a>
           </div>
         </div>
         <div class="archive-card-accent" style="--card-accent:<?php echo esc_attr($p_map[1]); ?>"></div>
