@@ -29,21 +29,51 @@
       <span>LIVE FEED ACTIVE</span>
       <span class="mp-clock">00:00:00 UTC</span>
     </div>
-    <!-- Mobile only: live TSLA in nav -->
-    <div class="lp-nav-tsla">
-      <span class="mp-tsla-price">$--</span>
-      <span class="mp-tsla-pct pos">▲ --%</span>
-    </div>
+    <!-- Mobile only: hamburger (reuses .mv-hamburger/.mv-mobile-menu from
+         template-parts/site-nav.php, already loaded via global.css) -->
+    <button class="mv-hamburger" id="lpHamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="mv-mobile-menu" id="lpMobileMenu" style="display:none">
+    <a href="<?php echo esc_url(home_url('/mission-feed')); ?>">Mission Feed</a>
+    <a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a>
+    <a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a>
+    <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a>
+    <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
+    <div class="mv-mobile-menu-foot">
+      <span class="live-dot"></span>
+      <span class="mp-clock mv-mob-clock">00:00:00 UTC</span>
+    </div>
+  </div>
   <script>
   (function(){
     var el = document.getElementById('lpNavClock');
-    if (!el) return;
-    function tick() {
-      var n = new Date(), p = function(v){ return String(v).padStart(2,'0'); };
-      el.textContent = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
+    if (el) {
+      var tick = function() {
+        var n = new Date(), p = function(v){ return String(v).padStart(2,'0'); };
+        el.textContent = p(n.getUTCHours())+':'+p(n.getUTCMinutes())+':'+p(n.getUTCSeconds())+' UTC';
+      };
+      setInterval(tick, 1000); tick();
     }
-    setInterval(tick, 1000); tick();
+
+    var btn  = document.getElementById('lpHamburger');
+    var menu = document.getElementById('lpMobileMenu');
+    if (btn && menu) {
+      btn.addEventListener('click', function() {
+        var opening = menu.style.display === 'none' || menu.style.display === '';
+        menu.style.display = opening ? 'flex' : 'none';
+        btn.classList.toggle('open', opening);
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.style.display = 'none';
+          btn.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
   })();
   </script>
 
@@ -56,12 +86,10 @@
       <div class="lp-ms-price mp-tsla-price">$--</div>
       <div class="lp-ms-chg mp-tsla-pct pos">▲ --%</div>
     </div>
-    <div class="lp-stat-row">
-      <span class="lp-stat-label">SPCX</span>
-      <div>
-        <span class="lp-stat-val mp-spcx-price">$135.00</span>
-        <span class="lp-stat-change mp-spcx-pct">PRE-IPO</span>
-      </div>
+    <div class="lp-ms-cell">
+      <div class="lp-ms-sym">SPCX</div>
+      <div class="lp-ms-price mp-spcx-price">$135.00</div>
+      <div class="lp-ms-chg mp-spcx-pct">PRE-IPO</div>
     </div>
     <div class="lp-ms-cell">
       <div class="lp-ms-sym">XOVR ETF</div>

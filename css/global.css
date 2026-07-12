@@ -95,7 +95,6 @@ body {
  * ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Hidden on desktop, shown on mobile ─────────────────────────── */
-.lp-nav-tsla,
 .lp-alert-bar,
 .lp-market-strip,
 .lp-mob-tabs,
@@ -163,26 +162,8 @@ body {
   .lp-nav-links  { display: none !important; }
   .lp-status-bar { display: none !important; }
 
-  /* TSLA live price on the right */
-  .lp-nav-tsla {
-    display:        flex !important;
-    flex-direction: column;
-    align-items:    flex-end;
-    gap:            1px;
-    margin-left:    auto;
-  }
-  .lp-nav-tsla .mp-tsla-price {
-    font-family:    'Share Tech Mono', monospace;
-    font-size:      13px;
-    color:          var(--green);
-    letter-spacing: 0.5px;
-  }
-  .lp-nav-tsla .mp-tsla-pct {
-    font-family:    'Share Tech Mono', monospace;
-    font-size:      9px;
-    color:          var(--green);
-    opacity:        0.7;
-  }
+  /* Push the hamburger to the right, same as .mv-logo does for .mv-hamburger */
+  .lp-nav-brand { margin-right: auto; }
 
   /* ── ALERT BAR ── */
   .lp-alert-bar {
