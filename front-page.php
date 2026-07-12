@@ -182,6 +182,134 @@
         <?php } ?>
     </div>
 
+    <!-- ══ MOBILE ONLY: SOCIAL FEED (post wall) ══ -->
+    <div class="lp-social-feed">
+      <div class="lp-sf-header">// MISSION FEED</div>
+      <?php
+        $sf_posts = get_posts(['numberposts' => 8, 'post_status' => 'publish']);
+        $sf_cat_colors = [
+          'spacex-ipo'  => '#00c8ff',
+          'tesla-news'  => '#f5a623',
+          'xai-optimus' => '#cc88ff',
+        ];
+        foreach ($sf_posts as $sf_post) {
+          $sf_cats    = get_the_category($sf_post->ID);
+          $sf_slug    = $sf_cats ? $sf_cats[0]->slug : 'tesla-news';
+          $sf_name    = $sf_cats ? $sf_cats[0]->name : 'Tesla News';
+          $sf_color   = isset($sf_cat_colors[$sf_slug]) ? $sf_cat_colors[$sf_slug] : '#00ff88';
+          $sf_ago     = human_time_diff(get_post_time('U', false, $sf_post), current_time('timestamp')) . ' ago';
+          $sf_read    = max(1, ceil(str_word_count(strip_tags($sf_post->post_content)) / 200));
+          $sf_link    = get_permalink($sf_post);
+          $sf_title   = get_the_title($sf_post);
+          /* ~100 word preview from content, shortcodes stripped */
+          $sf_preview = wp_trim_words(strip_shortcodes(strip_tags($sf_post->post_content)), 60, '…');
+          $sf_thumb   = get_the_post_thumbnail_url($sf_post->ID, 'medium_large');
+      ?>
+      <article class="lp-sf-card" data-url="<?php echo esc_url($sf_link); ?>" data-id="<?php echo (int) $sf_post->ID; ?>">
+
+        <div class="lp-sf-top">
+          <div class="lp-sf-avatar">MP</div>
+          <div class="lp-sf-id">
+            <div class="lp-sf-brand">MuskPulse Intel</div>
+            <div class="lp-sf-meta">
+              <span style="color:<?php echo esc_attr($sf_color); ?>"><?php echo esc_html($sf_name); ?></span>
+              <span class="lp-sf-dot">·</span>
+              <span><?php echo esc_html($sf_ago); ?></span>
+            </div>
+          </div>
+        </div>
+
+        <a class="lp-sf-title" href="<?php echo esc_url($sf_link); ?>"><?php echo esc_html($sf_title); ?></a>
+        <p class="lp-sf-preview"><?php echo esc_html($sf_preview); ?></p>
+        <a class="lp-sf-readmore" href="<?php echo esc_url($sf_link); ?>">Read full intel →</a>
+
+        <?php if ($sf_thumb) : ?>
+        <a href="<?php echo esc_url($sf_link); ?>" class="lp-sf-img-link">
+          <img class="lp-sf-img" src="<?php echo esc_url($sf_thumb); ?>" alt="<?php echo esc_attr($sf_title); ?>" loading="lazy">
+        </a>
+        <?php endif; ?>
+
+        <div class="lp-sf-footer">
+          <button class="lp-sf-action lp-sf-share" type="button">
+            <span class="lp-sf-ico">↗</span> Share
+          </button>
+          <button class="lp-sf-action lp-sf-save" type="button">
+            <span class="lp-sf-ico">◇</span> <span class="lp-sf-save-label">Save</span>
+          </button>
+          <a class="lp-sf-action" href="<?php echo esc_url($sf_link); ?>">
+            <span class="lp-sf-ico">▤</span> <?php echo esc_html($sf_read); ?> min read
+          </a>
+        </div>
+
+      </article>
+      <?php } ?>
+    </div>
+
+    <script>
+    /* ── SOCIAL FEED: share + save (mobile) ────────────────────── */
+    (function() {
+      var feed = document.querySelector('.lp-social-feed');
+      if (!feed) return;
+
+      var SAVE_KEY = 'mp_saved_posts';
+      function getSaved() {
+        try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || []; }
+        catch(e) { return []; }
+      }
+      function setSaved(arr) {
+        try { localStorage.setItem(SAVE_KEY, JSON.stringify(arr)); } catch(e) {}
+      }
+
+      var saved = getSaved();
+      feed.querySelectorAll('.lp-sf-card').forEach(function(card) {
+        if (saved.indexOf(card.dataset.id) !== -1) {
+          card.querySelector('.lp-sf-save').classList.add('saved');
+          card.querySelector('.lp-sf-save-label').textContent = 'Saved';
+        }
+      });
+
+      feed.addEventListener('click', function(e) {
+        var shareBtn = e.target.closest('.lp-sf-share');
+        var saveBtn  = e.target.closest('.lp-sf-save');
+        if (!shareBtn && !saveBtn) return;
+
+        var card = e.target.closest('.lp-sf-card');
+        var url  = card.dataset.url;
+
+        if (shareBtn) {
+          var title = card.querySelector('.lp-sf-title').textContent;
+          if (navigator.share) {
+            navigator.share({ title: title, url: url }).catch(function(){});
+          } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function() {
+              shareBtn.innerHTML = '<span class="lp-sf-ico">✓</span> Copied';
+              setTimeout(function() {
+                shareBtn.innerHTML = '<span class="lp-sf-ico">↗</span> Share';
+              }, 1800);
+            });
+          }
+        }
+
+        if (saveBtn) {
+          var id  = card.dataset.id;
+          var arr = getSaved();
+          var idx = arr.indexOf(id);
+          var lbl = saveBtn.querySelector('.lp-sf-save-label');
+          if (idx === -1) {
+            arr.push(id);
+            saveBtn.classList.add('saved');
+            lbl.textContent = 'Saved';
+          } else {
+            arr.splice(idx, 1);
+            saveBtn.classList.remove('saved');
+            lbl.textContent = 'Save';
+          }
+          setSaved(arr);
+        }
+      });
+    })();
+    </script>
+
   </div>
 </div><!-- /landing-page -->
 
