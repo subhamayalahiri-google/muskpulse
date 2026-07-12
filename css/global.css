@@ -650,3 +650,5 @@ body {
 
 }
 /* ── End social feed ─────────────────────────────────────────────── */
+
+#footer { display: none !important; }
