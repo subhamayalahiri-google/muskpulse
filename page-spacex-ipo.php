@@ -116,7 +116,7 @@
   <!-- LATEST SPACEX IPO INTEL -->
   <section class="ipo-section">
     <div class="ipo-section-label">// LATEST SPACEX IPO INTEL</div>
-    <div class="ipo-related-grid">
+    <div class="archive-grid">
       <?php
         $ipo_posts = new WP_Query([
           'category_name'  => 'spacex-ipo',
@@ -124,15 +124,39 @@
           'orderby'        => 'date',
           'order'          => 'DESC',
         ]);
+        $ipo_num = 1;
         if ($ipo_posts->have_posts()) :
           while ($ipo_posts->have_posts()) : $ipo_posts->the_post();
-            $ago = human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago';
+            $ago       = human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago';
+            $excerpt   = wp_trim_words(get_the_excerpt(), 22, '...');
+            $read      = max(1, ceil(str_word_count(strip_tags(get_the_content())) / 200));
+            $permalink = get_permalink();
       ?>
-        <a href="<?php the_permalink(); ?>" class="ipo-related-card">
-          <div class="ipo-related-title"><?php the_title(); ?></div>
-          <div class="ipo-related-meta"><?php echo esc_html($ago); ?></div>
-        </a>
+        <article class="archive-card lp-sf-card" data-url="<?php echo esc_url($permalink); ?>" data-id="<?php the_ID(); ?>">
+          <div class="archive-card-inner">
+            <div class="archive-card-num"><?php echo str_pad($ipo_num, 2, '0', STR_PAD_LEFT); ?></div>
+            <div class="archive-card-tag tag-spacex">
+              <span class="dot"></span>
+              SpaceX IPO
+            </div>
+            <a class="archive-card-title" href="<?php echo esc_url($permalink); ?>"><?php the_title(); ?></a>
+            <p class="archive-card-excerpt"><?php echo esc_html($excerpt); ?></p>
+            <div class="archive-card-meta">
+              <span><?php echo esc_html($ago); ?></span>
+              <span><?php echo esc_html($read); ?> min read</span>
+              <button class="lp-sf-action lp-sf-share" type="button">
+                <span class="lp-sf-ico">↗</span> Share
+              </button>
+              <button class="lp-sf-action lp-sf-save" type="button">
+                <span class="lp-sf-ico">◇</span> <span class="lp-sf-save-label">Save</span>
+              </button>
+              <a class="archive-card-read" href="<?php echo esc_url($permalink); ?>">Read →</a>
+            </div>
+          </div>
+          <div class="archive-card-accent" style="--card-accent:#00c8ff"></div>
+        </article>
       <?php
+            $ipo_num++;
           endwhile;
           wp_reset_postdata();
         else:
@@ -187,11 +211,7 @@
 .ipo-kit-form .formkit-field { margin-bottom: 14px !important; }
 .ipo-kit-form .formkit-submit { background:var(--accent) !important; color:var(--bg) !important; font-family:'Orbitron',monospace !important; font-size:10px !important; letter-spacing:3px !important; text-transform:uppercase !important; padding:12px 24px !important; border-radius:0 !important; clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%) !important; }
 
-.ipo-related-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--border); margin-bottom:16px; }
-.ipo-related-card { display:block; background:var(--surface); padding:18px 20px; text-decoration:none; transition:background .15s; }
-.ipo-related-card:hover { background: var(--surface2); }
-.ipo-related-title { font-family:'Orbitron',monospace; font-size:13px; font-weight:700; color:#fff; line-height:1.4; margin-bottom:8px; }
-.ipo-related-meta { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+.ipo-outer .archive-grid { margin-bottom: 16px; }
 .ipo-archive-link { font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); text-decoration:none; }
 
 @media (max-width: 700px) {

@@ -59,8 +59,8 @@ add_action('wp_enqueue_scripts', function() {
   }
 
   // Share/Save actions for server-rendered .archive-card grids (front page,
-  // Mission Feed, category archives)
-  if (is_front_page() || is_archive() || is_home()) {
+  // Mission Feed, category archives, SpaceX IPO landing page)
+  if (is_front_page() || is_archive() || is_home() || is_page_template('page-spacex-ipo.php')) {
     wp_enqueue_script('mp-card-actions', $uri . '/js/card-actions.js', [], mp_asset_version('/js/card-actions.js'), true);
   }
 
