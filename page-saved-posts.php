@@ -20,7 +20,7 @@
 
   <div class="sp-loading" id="spLoading">Loading saved intel…</div>
 
-  <div class="sp-feed" id="spFeed"></div>
+  <div class="sp-feed archive-grid" id="spFeed"></div>
 
   <div class="sp-empty" id="spEmpty" style="display:none">
     <div class="sp-empty-icon">◇</div>

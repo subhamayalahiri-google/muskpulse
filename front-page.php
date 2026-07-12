@@ -183,67 +183,55 @@
         <?php } ?>
     </div>
 
-    <!-- ══ SOCIAL FEED (post wall) — shown on mobile and desktop ══ -->
-    <div class="lp-social-feed" id="latest">
+    <!-- ══ MISSION FEED (post wall) — shown on mobile and desktop, cards
+         match .archive-card used on Mission Feed / category archive pages ══ -->
+    <div class="lp-social-feed archive-grid" id="latest">
       <div class="lp-sf-header">// MISSION FEED</div>
       <?php
-        $sf_posts = get_posts(['numberposts' => 10, 'post_status' => 'publish']);
-        $sf_cat_colors = [
-          'spacex-ipo'  => '#00c8ff',
-          'tesla-news'  => '#f5a623',
-          'xai-optimus' => '#cc88ff',
+        $sf_posts   = get_posts(['numberposts' => 10, 'post_status' => 'publish']);
+        $sf_cat_map = [
+          'spacex-ipo'  => ['tag-spacex', '#00c8ff'],
+          'tesla-news'  => ['tag-tesla',  '#f5a623'],
+          'xai-optimus' => ['tag-xai',    '#cc88ff'],
         ];
+        $sf_num = 1;
         foreach ($sf_posts as $sf_post) {
           $sf_cats    = get_the_category($sf_post->ID);
           $sf_slug    = $sf_cats ? $sf_cats[0]->slug : 'tesla-news';
           $sf_name    = $sf_cats ? $sf_cats[0]->name : 'Tesla News';
-          $sf_color   = isset($sf_cat_colors[$sf_slug]) ? $sf_cat_colors[$sf_slug] : '#00ff88';
+          $sf_map     = isset($sf_cat_map[$sf_slug]) ? $sf_cat_map[$sf_slug] : ['tag-invest', '#00ff88'];
           $sf_ago     = human_time_diff(get_post_time('U', false, $sf_post), current_time('timestamp')) . ' ago';
           $sf_read    = max(1, ceil(str_word_count(strip_tags($sf_post->post_content)) / 200));
           $sf_link    = get_permalink($sf_post);
           $sf_title   = get_the_title($sf_post);
-          /* ~100 word preview from content, shortcodes stripped */
-          $sf_preview = wp_trim_words(strip_shortcodes(strip_tags($sf_post->post_content)), 60, '…');
-          $sf_thumb   = get_the_post_thumbnail_url($sf_post->ID, 'medium_large');
+          $sf_preview = wp_trim_words(strip_shortcodes(strip_tags($sf_post->post_content)), 22, '...');
       ?>
-      <article class="lp-sf-card" data-url="<?php echo esc_url($sf_link); ?>" data-id="<?php echo (int) $sf_post->ID; ?>">
-
-        <div class="lp-sf-top">
-          <div class="lp-sf-avatar">MP</div>
-          <div class="lp-sf-id">
-            <div class="lp-sf-brand">MuskPulse Intel</div>
-            <div class="lp-sf-meta">
-              <span style="color:<?php echo esc_attr($sf_color); ?>"><?php echo esc_html($sf_name); ?></span>
-              <span class="lp-sf-dot">·</span>
-              <span><?php echo esc_html($sf_ago); ?></span>
-            </div>
+      <article class="lp-sf-card archive-card" data-url="<?php echo esc_url($sf_link); ?>" data-id="<?php echo (int) $sf_post->ID; ?>">
+        <div class="archive-card-inner">
+          <div class="archive-card-num"><?php echo str_pad($sf_num, 2, '0', STR_PAD_LEFT); ?></div>
+          <div class="archive-card-tag <?php echo esc_attr($sf_map[0]); ?>">
+            <span class="dot"></span>
+            <?php echo esc_html($sf_name); ?>
+          </div>
+          <a class="archive-card-title" href="<?php echo esc_url($sf_link); ?>"><?php echo esc_html($sf_title); ?></a>
+          <p class="archive-card-excerpt"><?php echo esc_html($sf_preview); ?></p>
+          <div class="archive-card-meta">
+            <span><?php echo esc_html($sf_ago); ?></span>
+            <span><?php echo esc_html($sf_read); ?> min read</span>
+            <button class="lp-sf-action lp-sf-share" type="button">
+              <span class="lp-sf-ico">↗</span> Share
+            </button>
+            <button class="lp-sf-action lp-sf-save" type="button">
+              <span class="lp-sf-ico">◇</span> <span class="lp-sf-save-label">Save</span>
+            </button>
+            <a class="archive-card-read" href="<?php echo esc_url($sf_link); ?>">Read →</a>
           </div>
         </div>
-
-        <a class="lp-sf-title" href="<?php echo esc_url($sf_link); ?>"><?php echo esc_html($sf_title); ?></a>
-        <p class="lp-sf-preview"><?php echo esc_html($sf_preview); ?></p>
-        <a class="lp-sf-readmore" href="<?php echo esc_url($sf_link); ?>">Read full intel →</a>
-
-        <?php if ($sf_thumb) : ?>
-        <a href="<?php echo esc_url($sf_link); ?>" class="lp-sf-img-link">
-          <img class="lp-sf-img" src="<?php echo esc_url($sf_thumb); ?>" alt="<?php echo esc_attr($sf_title); ?>" loading="lazy">
-        </a>
-        <?php endif; ?>
-
-        <div class="lp-sf-footer">
-          <button class="lp-sf-action lp-sf-share" type="button">
-            <span class="lp-sf-ico">↗</span> Share
-          </button>
-          <button class="lp-sf-action lp-sf-save" type="button">
-            <span class="lp-sf-ico">◇</span> <span class="lp-sf-save-label">Save</span>
-          </button>
-          <a class="lp-sf-action" href="<?php echo esc_url($sf_link); ?>">
-            <span class="lp-sf-ico">▤</span> <?php echo esc_html($sf_read); ?> min read
-          </a>
-        </div>
-
+        <div class="archive-card-accent" style="--card-accent:<?php echo esc_attr($sf_map[1]); ?>"></div>
       </article>
-      <?php } ?>
+      <?php
+          $sf_num++;
+        } ?>
     </div>
 
     <script>
@@ -278,7 +266,7 @@
         var url  = card.dataset.url;
 
         if (shareBtn) {
-          var title = card.querySelector('.lp-sf-title').textContent;
+          var title = card.querySelector('.archive-card-title').textContent;
           if (navigator.share) {
             navigator.share({ title: title, url: url }).catch(function(){});
           } else if (navigator.clipboard) {

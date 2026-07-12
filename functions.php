@@ -36,8 +36,10 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_style('mp-splash', $uri . '/css/splash.css', ['mp-global'], mp_asset_version('/css/splash.css'));
   }
 
-  // Article and archive CSS — loads on single posts, category archives, Mission Feed, custom page templates, and error pages
-    if (is_single() || is_archive() || is_home() || is_404()
+  // Article and archive CSS — loads on single posts, category archives, Mission Feed, the
+  // front page (Mission Feed cards there reuse .archive-card so they stay visually consistent
+  // with the other category pages), custom page templates, and error pages
+    if (is_single() || is_archive() || is_home() || is_404() || is_front_page()
         || is_page_template('page-mission-briefing.php')
         || is_page_template('page-thank-you.php')
         || is_page_template('page-spacex-ipo.php')

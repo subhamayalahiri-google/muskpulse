@@ -504,26 +504,21 @@ body {
 }
 /* ── End mv-nav responsive ───────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════════
- * SOCIAL FEED — LinkedIn-style post wall (front page), shown at all
- * widths. Replaces the old 2-card .lp-cards teaser (now hidden everywhere,
- * see below) — on desktop it renders as a new full-width section below
- * the hero/side-panel grid, once the page becomes scrollable.
+ * MISSION FEED — front-page post wall, shown at all widths.
+ * Cards reuse .archive-card (defined in article.css, loaded on the front
+ * page too) so they look identical to the Mission Feed / category archive
+ * pages, with Share/Save actions added into the existing meta row.
+ * Replaces the old 2-card .lp-cards teaser (now hidden everywhere).
  * ═══════════════════════════════════════════════════════════════════ */
 
 /* Occupies the hero grid's card slot on desktop (grid-column:span 2,
    same as .lp-cards used to); harmless on mobile where .lp-main switches
    to a single-column flex layout and grid-column has no effect. */
-.lp-social-feed {
-  display:        flex;
-  flex-direction: column;
-  grid-column:    span 2;
-}
+.lp-social-feed { grid-column: span 2; }
 
 /* Teaser cards replaced by the full feed above — hidden at all widths */
 .lp-cards { display: none !important; }
 
-/* ── POST CARD — used by the mobile social feed AND the Saved Posts view,
-   so these rules are unscoped (not tied to the 768px breakpoint) ── */
 .lp-sf-header {
   font-family:    'Share Tech Mono', monospace;
   font-size:      9px;
@@ -534,126 +529,34 @@ body {
   border-bottom:  1px solid var(--border);
 }
 
-.lp-sf-card {
-  padding:       14px;
-  border-bottom: 6px solid var(--surface2);  /* thick separator = social feel */
-  background:    var(--bg);
-}
+/* Category tag colors inside cards — used by .archive-card-tag on every
+   card grid (Mission Feed, category archives, front page); unscoped here
+   (rather than only in splash.css) so they apply on every page that uses
+   .archive-card, not just the front page. */
+.tag-spacex { color: var(--accent); } .tag-spacex .dot { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+.tag-tesla  { color: var(--gold);   } .tag-tesla .dot  { background: var(--gold);   box-shadow: 0 0 5px var(--gold); }
+.tag-xai    { color: var(--purple); } .tag-xai .dot    { background: var(--purple); box-shadow: 0 0 5px var(--purple); }
+.tag-invest { color: var(--green);  } .tag-invest .dot { background: var(--green);  box-shadow: 0 0 5px var(--green); }
 
-/* Header row: avatar + brand + meta */
-.lp-sf-top {
-  display:       flex;
-  align-items:   center;
-  gap:           10px;
-  margin-bottom: 10px;
-}
-.lp-sf-avatar {
-  width:           38px;
-  height:          38px;
-  flex-shrink:     0;
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  font-family:     'Orbitron', monospace;
-  font-size:       12px;
-  font-weight:     900;
-  color:           var(--accent);
-  background:      rgba(0, 200, 255, 0.07);
-  border:          1px solid var(--border);
-  border-radius:   8px;
-}
-.lp-sf-brand {
-  font-family:    'Orbitron', monospace;
-  font-size:      11px;
-  font-weight:    700;
-  color:          #fff;
-  letter-spacing: 0.5px;
-}
-.lp-sf-meta {
-  display:     flex;
-  align-items: center;
-  gap:         6px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size:   9px;
-  color:       var(--muted);
-  margin-top:  2px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.lp-sf-dot { color: var(--border); }
-
-/* Title + preview */
-.lp-sf-title {
-  display:         block;
-  font-family:     'Exo 2', sans-serif;
-  font-size:       15px;
-  font-weight:     600;
-  line-height:     1.35;
-  color:           #e8f0f8;
-  text-decoration: none;
-  margin-bottom:   8px;
-}
-.lp-sf-preview {
-  font-size:     12px;
-  line-height:   1.6;
-  color:         var(--text-dim);
-  font-weight:   300;
-  margin-bottom: 6px;
-}
-.lp-sf-readmore {
-  display:         inline-block;
-  font-family:     'Share Tech Mono', monospace;
-  font-size:       10px;
-  letter-spacing:  1px;
-  color:           var(--accent);
-  text-decoration: none;
-  text-transform:  uppercase;
-  margin-bottom:   12px;
-}
-
-/* Featured image */
-.lp-sf-img-link { display: block; margin-bottom: 12px; }
-.lp-sf-img {
-  width:         100%;
-  height:        auto;
-  display:       block;
-  border:        1px solid var(--border);
-  border-radius: 8px;
-}
-
-/* Engagement footer */
-.lp-sf-footer {
-  display:     flex;
-  align-items: center;
-  border-top:  1px solid rgba(13, 51, 73, 0.6);
-  padding-top: 4px;
-  margin:      0 -4px;
-}
+/* Share/Save actions, added inline into .archive-card-meta alongside the
+   existing time-ago / read-time / "Read →" — buttons inherit that row's
+   font/color so they read as part of the same design, not a bolt-on. */
 .lp-sf-action {
-  flex:            1;
-  display:         flex;
-  align-items:     center;
-  justify-content: center;
-  gap:             6px;
-  padding:         9px 4px;
-  background:      transparent;
-  border:          none;
-  font-family:     'Share Tech Mono', monospace;
-  font-size:       10px;
-  letter-spacing:  1px;
-  text-transform:  uppercase;
-  color:           var(--muted);
-  text-decoration: none;
-  cursor:          pointer;
-  transition:      color 0.15s;
-  border-radius:   6px;
+  font:        inherit;
+  color:       inherit;
+  background:  none;
+  border:      none;
+  padding:     0;
+  cursor:      pointer;
+  display:     inline-flex;
+  align-items: center;
+  gap:         4px;
+  transition:  color 0.2s;
 }
-.lp-sf-action:active { background: rgba(0, 200, 255, 0.06); }
-.lp-sf-ico { font-size: 12px; }
-.lp-sf-save.saved {
-  color: var(--gold);
-}
-.lp-sf-save.saved .lp-sf-ico { text-shadow: 0 0 8px var(--gold); }
+.lp-sf-action:hover { color: var(--accent); }
+.lp-sf-ico { font-size: 11px; }
+.lp-sf-save.saved { color: var(--gold); }
+.lp-sf-save.saved .lp-sf-ico { text-shadow: 0 0 6px var(--gold); }
 
 /* Fade-out transition when unsaving a card (Saved Posts view) */
 .lp-sf-card.sp-removing {
@@ -661,16 +564,7 @@ body {
   transform:  scale(0.97);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-
-@media (max-width: 768px) {
-
-  /* .lp-main is flex-column here (see MAIN GRID rule above) — place the
-     feed after the hero in stack order. grid-column:span 2 (set above) is
-     simply ignored by the flex layout. */
-  .lp-social-feed { order: 2; }
-
-}
-/* ── End social feed ─────────────────────────────────────────────── */
+/* ── End Mission Feed ─────────────────────────────────────────────── */
 
 /* ═══════════════════════════════════════════════════════════════════
  * SAVED POSTS — dedicated reading-list view, responsive (works at any
