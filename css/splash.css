@@ -329,7 +329,7 @@ html, body {
 .lp-cta span { position:relative; z-index:1; }
 .lp-cta-ghost { font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:2px; color:var(--muted); text-decoration:none; transition:color .2s; }
 .lp-cta-ghost:hover { color:#fff; }
-.lp-disclaimer { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:.5px; color:var(--muted); opacity:.6; margin-top:20px; max-width:480px; line-height:1.6; }
+.lp-disclaimer { font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:.5px; color:var(--text-dim); margin-top:20px; max-width:480px; line-height:1.6; }
 
 /* LP Side panel */
 .lp-side { grid-column:3; grid-row:1/3; background:var(--surface); border-left:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; }
