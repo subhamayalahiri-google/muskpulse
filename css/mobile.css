@@ -196,6 +196,9 @@
      defaults to order:0 and sorts before the hero in the column flex. */
   .lp-social-feed { order: 2; }
 
+  /* Same reasoning — must sort after the feed (order:2), not default to 0. */
+  .lp-feed-more { order: 3; }
+
   /* ── Prevent horizontal overflow ── */
   #landing-page { overflow-x: hidden; }
 
