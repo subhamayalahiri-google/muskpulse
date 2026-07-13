@@ -44,7 +44,8 @@ add_action('wp_enqueue_scripts', function() {
         || is_page_template('page-thank-you.php')
         || is_page_template('page-spacex-ipo.php')
         || is_page_template('page-saved-posts.php')
-        || is_page_template('page-faq.php')) {
+        || is_page_template('page-faq.php')
+        || is_page_template('page-contact.php')) {
       wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], mp_asset_version('/css/article.css'));
     }
 
@@ -195,3 +196,46 @@ add_action('wp_print_styles', function() {
     wp_dequeue_style('convertkit-admin-quicktags');
   }
 }, 100);
+
+// ── CONTACT FORM ─────────────────────────────────────────────────────────
+// Handles the form in page-contact.php via admin-post.php (WordPress's
+// standard pattern for custom form handlers, no plugin needed). Registered
+// for both logged-in and logged-out visitors since the contact page is
+// public.
+function mp_handle_contact_form() {
+  $redirect_base = wp_get_referer() ?: home_url('/contact');
+
+  // Honeypot — a hidden field real visitors never fill in; bots usually do.
+  // Pretend success rather than exposing that a spam check exists.
+  if (!empty($_POST['mp_contact_website'])) {
+    wp_safe_redirect(add_query_arg('mp_contact', 'sent', $redirect_base));
+    exit;
+  }
+
+  $valid_nonce = isset($_POST['mp_contact_nonce'])
+    && wp_verify_nonce($_POST['mp_contact_nonce'], 'mp_contact_submit');
+
+  $name    = isset($_POST['mp_contact_name'])    ? sanitize_text_field(wp_unslash($_POST['mp_contact_name']))    : '';
+  $email   = isset($_POST['mp_contact_email'])   ? sanitize_email(wp_unslash($_POST['mp_contact_email']))       : '';
+  $subject = isset($_POST['mp_contact_subject']) ? sanitize_text_field(wp_unslash($_POST['mp_contact_subject'])) : '';
+  $message = isset($_POST['mp_contact_message']) ? sanitize_textarea_field(wp_unslash($_POST['mp_contact_message'])) : '';
+
+  if (!$valid_nonce || !$name || !$email || !is_email($email) || !$subject || !$message) {
+    wp_safe_redirect(add_query_arg('mp_contact', 'error', $redirect_base));
+    exit;
+  }
+
+  $mail_subject = 'MuskPulse Contact: ' . $subject;
+  $mail_body    = "Name: {$name}\nEmail: {$email}\n\n{$message}";
+  $mail_headers = [
+    'Content-Type: text/plain; charset=UTF-8',
+    'Reply-To: ' . $name . ' <' . $email . '>',
+  ];
+
+  $sent = wp_mail('info@muskpulse.com', $mail_subject, $mail_body, $mail_headers);
+
+  wp_safe_redirect(add_query_arg('mp_contact', $sent ? 'sent' : 'error', $redirect_base));
+  exit;
+}
+add_action('admin_post_mp_contact_submit',        'mp_handle_contact_form');
+add_action('admin_post_nopriv_mp_contact_submit', 'mp_handle_contact_form');

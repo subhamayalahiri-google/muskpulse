@@ -27,6 +27,7 @@
         <div class="mv-nav-more-pop" id="lpMorePop" style="display:none">
           <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
           <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
+          <a href="<?php echo esc_url(home_url('/contact')); ?>">Contact</a>
         </div>
       </li>
     </ul>
@@ -48,6 +49,7 @@
     <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a>
     <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
     <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
+    <a href="<?php echo esc_url(home_url('/contact')); ?>">Contact</a>
     <div class="mv-mobile-menu-foot">
       <span class="live-dot"></span>
       <span class="mp-clock mv-mob-clock">00:00:00</span>
