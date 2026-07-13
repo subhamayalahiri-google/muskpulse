@@ -225,8 +225,10 @@ function mp_handle_contact_form() {
     exit;
   }
 
+  $agree_reply = !empty($_POST['mp_contact_agree_reply']) ? 'Yes' : 'No';
+
   $mail_subject = 'MuskPulse Contact: ' . $subject;
-  $mail_body    = "Name: {$name}\nEmail: {$email}\n\n{$message}";
+  $mail_body    = "Name: {$name}\nEmail: {$email}\nOK to reply by email: {$agree_reply}\n\n{$message}";
   $mail_headers = [
     'Content-Type: text/plain; charset=UTF-8',
     'Reply-To: ' . $name . ' <' . $email . '>',

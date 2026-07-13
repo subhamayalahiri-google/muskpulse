@@ -75,6 +75,11 @@ $mp_error = isset($_GET['mp_contact']) && $_GET['mp_contact'] === 'error';
     </div>
 
     <label class="contact-checkbox">
+      <input type="checkbox" name="mp_contact_agree_reply" value="1" checked>
+      <span>I agree to receive an email response from the MuskPulse team regarding this message.</span>
+    </label>
+
+    <label class="contact-checkbox">
       <input type="checkbox" name="mp_contact_subscribe" value="1">
       <span>I agree to receive marketing emails and communications from the MuskPulse team. I understand I can unsubscribe at any time.</span>
     </label>
