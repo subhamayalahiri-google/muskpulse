@@ -666,17 +666,7 @@ body::after {
   transition: width .1s linear;
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  .article-outer { grid-template-columns: 1fr; }
-  .article-sidebar { border-left: none; border-top: 1px solid var(--border); }
-  .article-header, .article-body { padding: 32px 24px; }
-  .mv-nav { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
-  .mv-nav-links { display: none; }
-  .affiliate-cta { flex-direction: column; }
-}
+/* Mobile/tablet overrides moved to css/mobile.css (see functions.php) */
 
 /* ═══════════════════════════════════════════════════════
    ARCHIVE PAGE — category/tag feed
@@ -828,29 +818,8 @@ body::after {
 }
 .page-btn:hover { color: var(--accent); border-color: var(--accent); }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .archive-header { padding: 32px 24px 28px; }
-  .archive-grid { grid-template-columns: 1fr; }
-  .archive-card-inner { padding: 24px; }
-  .archive-pagination { padding: 32px 24px; }
-
-  /* Meta row (time • read time • Share • Save • Read →) — brighter text,
-     and "Read →" no longer hover-only (touch devices have no hover). */
-  .archive-card-meta  { color: var(--text-dim); }
-  .archive-card-read  { opacity: 1; }
-}
-
-/* Card text was still desktop-sized on phones even after the general
-   mobile font-size pass (it isn't inside any max-width:768px block). */
-@media (max-width: 768px) {
-  .archive-card-num     { font-size: 40px; }
-  .archive-card-tag     { font-size: 12px; }
-  .archive-card-title   { font-size: 18px; }
-  .archive-card-excerpt { font-size: 16px; }
-  .archive-card-meta    { font-size: 12px; }
-}
-
+/* Mobile/tablet overrides (padding, card text sizing, meta row brightness)
+   moved to css/mobile.css (see functions.php) */
 
 /* ═══════════════════════════════════════════════════════
    MARKET STATUS INDICATOR — mp-tsla-status
@@ -892,7 +861,6 @@ body::after {
   border-color: rgba(74,96,112,.3) !important;
   background: rgba(74,96,112,.05) !important;
 }
-
 
 /* ═══════════════════════════════════════════════════════
    KIT FORM — SIDEBAR DARK OVERRIDES

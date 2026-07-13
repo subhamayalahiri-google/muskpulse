@@ -1,0 +1,403 @@
+/**
+ * mobile.css
+ * Media-query overrides extracted from global.css / article.css / splash.css
+ * so desktop viewports aren't render-blocked on them (the <link media="...">
+ * attribute this is enqueued with tells the browser this whole file doesn't
+ * apply above ~1080px, so it downloads without blocking first paint there).
+ * Must load AFTER global.css/article.css/splash.css for cascade order.
+ */
+
+
+/* ── from css/global.css ── */
+@media (max-width: 768px) {
+
+  /* ── NAV ── */
+  .lp-nav {
+    display:         flex !important;
+    align-items:     center;
+    flex-wrap:       nowrap;
+    padding:         10px 14px;
+    gap:             0;
+  }
+
+  /* Logo + clock stacked on the left */
+  .lp-nav-brand {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex-shrink:    0;
+  }
+  .lp-logo { font-size: 16px; letter-spacing: 2px; }
+  .lp-nav-clock {
+    display:         block;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       12px;
+    color:           var(--accent);
+    letter-spacing:  1px;
+    opacity:         0.75;
+  }
+
+  /* Hide desktop nav links + status bar */
+  .lp-nav-links  { display: none !important; }
+  .lp-status-bar { display: none !important; }
+
+  /* Push the hamburger to the right, same as .mv-logo does for .mv-hamburger */
+  .lp-nav-brand { margin-right: auto; }
+
+  /* ── ALERT BAR ── */
+  .lp-alert-bar {
+    display:     flex !important;
+    align-items: center;
+    gap:         8px;
+    background:  var(--red);
+    padding:     6px 14px;
+    overflow:    hidden;
+  }
+  .lp-alert-dot {
+    width:        6px;
+    height:       6px;
+    border-radius: 50%;
+    background:   #fff;
+    flex-shrink:  0;
+    animation:    mp-pulse 1s ease-in-out infinite;
+  }
+  .lp-alert-txt {
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       13px;
+    letter-spacing:  1.5px;
+    color:           #fff;
+    text-transform:  uppercase;
+    white-space:     nowrap;
+    overflow:        hidden;
+    text-overflow:   ellipsis;
+  }
+
+  /* ── MARKET STRIP ── */
+  .lp-market-strip {
+    display:       flex !important;
+    border-bottom: 1px solid var(--border);
+    background:    rgba(0, 200, 255, 0.02);
+  }
+  .lp-ms-cell {
+    flex:       1;
+    padding:    10px 0;
+    text-align: center;
+  }
+  .lp-ms-cell + .lp-ms-cell { border-left: 1px solid var(--border); }
+  .lp-ms-sym {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      11px;
+    color:          var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom:  3px;
+  }
+  .lp-ms-price {
+    font-family: 'Orbitron', monospace;
+    font-size:   14px;
+    font-weight: 600;
+    color:       var(--text);
+    line-height: 1;
+  }
+  .lp-ms-chg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size:   12px;
+    margin-top:  2px;
+  }
+
+  /* ── CATEGORY TABS ── */
+  .lp-mob-tabs {
+    display:                    flex !important;
+    overflow-x:                 auto;
+    scrollbar-width:            none;
+    border-bottom:              1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+  }
+  .lp-mob-tabs::-webkit-scrollbar { display: none; }
+  .lp-mob-tab {
+    flex-shrink:     0;
+    padding:         9px 14px;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       12px;
+    letter-spacing:  1.5px;
+    text-transform:  uppercase;
+    color:           var(--muted);
+    text-decoration: none;
+    white-space:     nowrap;
+    border-right:    1px solid var(--border);
+    border-bottom:   2px solid transparent;
+  }
+  .lp-mob-tab.active {
+    color:            var(--accent);
+    background:       rgba(0, 200, 255, 0.05);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── TICKER — hidden on mobile (both the front-page and standard variants) ── */
+  .lp-ticker, .mv-ticker { display: none !important; }
+
+  /* ── MAIN GRID → single column ──
+     Scroll + natural height already apply at all widths (see the unscoped
+     rule above); mobile additionally collapses the 3-column grid to a
+     single stacked column.                                                   */
+  .lp-main {
+    display:        flex !important;
+    flex-direction: column !important;
+    padding:        0 !important;
+    gap:            0 !important;
+  }
+
+  /* ── HERO ── */
+  .lp-hero {
+    padding:       20px 14px 18px !important;
+    border-bottom: 1px solid var(--border);
+    order:         1;
+  }
+  /* Hide corner decorations — too large on phone */
+  .lp-hero .c-tl,
+  .lp-hero .c-br { display: none !important; }
+
+  .invest-badge   { font-size: 11px !important; padding: 3px 8px !important; margin-bottom: 8px !important; }
+  .lp-mission-tag { font-size: 12px !important; margin-bottom: 8px !important; }
+
+  .lp-h1 {
+    font-size:     clamp(18px, 6.5vw, 26px) !important;
+    line-height:   1.2 !important;
+    margin-bottom: 10px !important;
+  }
+  .lp-h1 .w1, .lp-h1 .w2, .lp-h1 .w3 { display: block; }
+
+  .lp-sub {
+    font-size:     15px !important;
+    line-height:   1.65 !important;
+    color:         var(--text-dim);
+    margin-bottom: 14px !important;
+  }
+
+  .lp-cta-row {
+    flex-direction: column !important;
+    gap:            8px !important;
+  }
+  .lp-cta,
+  .lp-cta-ghost {
+    width:      100% !important;
+    text-align: center !important;
+    padding:    11px 14px !important;
+    font-size:  14px !important;
+  }
+  .lp-disclaimer {
+    font-size:  13px !important;
+    margin-top: 14px !important;
+  }
+
+  /* ── SIDE PANEL — hidden; data shown in market strip + alert bar ── */
+  .lp-side { display: none !important; }
+
+  /* Feed must render after the hero (order:1 above) — without this it
+     defaults to order:0 and sorts before the hero in the column flex. */
+  .lp-social-feed { order: 2; }
+
+  /* ── Prevent horizontal overflow ── */
+  #landing-page { overflow-x: hidden; }
+
+}
+
+@media (min-width: 769px) and (max-width: 1080px) {
+  .mv-nav {
+    gap:        6px !important;
+    padding:    0 12px !important;
+  }
+  .mv-nav-links {
+    gap:        0 !important;
+    flex-shrink: 1;
+  }
+  .mv-nav-links li {
+    white-space: nowrap !important;   /* critical — prevents line breaks */
+  }
+  .mv-nav-links li a {
+    font-size:      8.5px !important;
+    letter-spacing: 0 !important;
+    padding:        0 8px !important;
+    white-space:    nowrap !important;
+  }
+  .mv-nav-right  {
+    gap:        5px !important;
+    font-size:  9px !important;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+  }
+  /* Also cover lp-nav (homepage) at this width */
+  .lp-nav-links li {
+    white-space: nowrap !important;
+  }
+  .lp-nav-links li a {
+    font-size:      8.5px !important;
+    letter-spacing: 0 !important;
+    padding:        0 8px !important;
+    white-space:    nowrap !important;
+  }
+  .lp-status-bar {
+    font-size:  9px !important;
+    gap:        5px !important;
+    flex-shrink: 0;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Nav bar: logo left, hamburger right */
+  .mv-nav {
+    position:    relative;
+    display:     flex !important;
+    align-items: center;
+    padding:     10px 14px !important;
+    gap:         0 !important;
+    flex-wrap:   nowrap !important;
+  }
+  .mv-nav-brand {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex-shrink:    0;
+    margin-right:   auto;
+  }
+  .mv-logo {
+    font-size:      16px !important;
+    letter-spacing: 2px !important;
+  }
+  .mv-nav-clock {
+    display:         block;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       12px;
+    color:           var(--accent);
+    letter-spacing:  1px;
+    opacity:         0.75;
+  }
+  /* Hide desktop links and status bar */
+  .mv-nav-links  { display: none !important; }
+  .mv-nav-right  { display: none !important; }
+
+  /* Hamburger button */
+  .mv-hamburger {
+    display:          flex !important;
+    flex-direction:   column;
+    justify-content:  center;
+    gap:              5px;
+    width:            36px;
+    height:           36px;
+    padding:          8px;
+    background:       transparent;
+    border:           1px solid var(--border);
+    border-radius:    6px;
+    cursor:           pointer;
+    flex-shrink:      0;
+    transition:       border-color 0.2s;
+  }
+  .mv-hamburger:hover { border-color: var(--accent); }
+  .mv-hamburger span {
+    display:          block;
+    width:            100%;
+    height:           1.5px;
+    background:       var(--accent);
+    border-radius:    2px;
+    transition:       transform 0.25s, opacity 0.25s;
+    transform-origin: center;
+  }
+  /* Animate to X when open */
+  .mv-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .mv-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .mv-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Dropdown menu panel */
+  /* Dropdown menu panel — display toggled by JS via inline style */
+  .mv-mobile-menu {
+    display:       none;
+    flex-direction: column;
+    background:    var(--surface);
+    border-bottom: 1px solid var(--border);
+    position:      relative;
+    z-index:       999;
+  }
+  /* (display is set to flex by JS on open) */
+
+  .mv-mobile-menu a {
+    display:         block;
+    padding:         13px 16px;
+    font-family:     'Share Tech Mono', monospace;
+    font-size:       14px;
+    letter-spacing:  2px;
+    text-transform:  uppercase;
+    color:           var(--text-dim);
+    text-decoration: none;
+    border-bottom:   1px solid var(--border);
+    transition:      color 0.15s, background 0.15s, padding-left 0.15s;
+  }
+  .mv-mobile-menu a:hover,
+  .mv-mobile-menu a:focus {
+    color:        var(--accent);
+    background:   rgba(0, 200, 255, 0.05);
+    padding-left: 22px;
+    outline:      none;
+  }
+  /* Footer row inside dropdown: live dot + clock */
+  .mv-mobile-menu-foot {
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+    padding:     10px 16px;
+    opacity:     0.5;
+  }
+  .mv-mob-clock {
+    font-family:    'Share Tech Mono', monospace;
+    font-size:      13px;
+    letter-spacing: 1px;
+    color:          var(--accent);
+  }
+
+  /* Prevent body scroll when menu open — toggled by JS if needed */
+  body.mv-menu-open { overflow: hidden; }
+}
+
+@media (max-width: 768px) {
+  .lp-sf-header { font-size: 12px; }
+  .lp-sf-ico    { font-size: 14px; }
+}
+
+
+/* ── from css/article.css ── */
+@media (max-width: 900px) {
+  .article-outer { grid-template-columns: 1fr; }
+  .article-sidebar { border-left: none; border-top: 1px solid var(--border); }
+  .article-header, .article-body { padding: 32px 24px; }
+  .mv-nav { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
+  .mv-nav-links { display: none; }
+  .affiliate-cta { flex-direction: column; }
+}
+
+@media (max-width: 900px) {
+  .archive-header { padding: 32px 24px 28px; }
+  .archive-grid { grid-template-columns: 1fr; }
+  .archive-card-inner { padding: 24px; }
+  .archive-pagination { padding: 32px 24px; }
+
+  /* Meta row (time • read time • Share • Save • Read →) — brighter text,
+     and "Read →" no longer hover-only (touch devices have no hover). */
+  .archive-card-meta  { color: var(--text-dim); }
+  .archive-card-read  { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .archive-card-num     { font-size: 40px; }
+  .archive-card-tag     { font-size: 12px; }
+  .archive-card-title   { font-size: 18px; }
+  .archive-card-excerpt { font-size: 16px; }
+  .archive-card-meta    { font-size: 12px; }
+}
+
+
+/* ── from css/splash.css ── */
+@media (max-width: 768px) {
+  .lp-alert-text { font-size: 12px; }
+}
+

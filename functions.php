@@ -47,6 +47,14 @@ add_action('wp_enqueue_scripts', function() {
       wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], mp_asset_version('/css/article.css'));
     }
 
+  // Mobile/tablet overrides (≤1080px) extracted from global/article/splash.css
+  // into their own file, enqueued with a media query so viewports above that
+  // width aren't render-blocked on it — the browser still fetches it (in case
+  // the window gets resized/rotated) but at low priority, off the critical
+  // path for first paint on desktop. Depends on whichever of the three base
+  // stylesheets are actually registered on this page; WP silently skips any
+  // dependency that wasn't (e.g. mp-splash on a non-front-page).
+  wp_enqueue_style('mp-mobile', $uri . '/css/mobile.css', ['mp-global', 'mp-article', 'mp-splash'], mp_asset_version('/css/mobile.css'), '(max-width: 1080px)');
 
   // Live TSLA stock price — loads on all pages except front page (splash handles its own JS)
   if (!is_front_page()) {

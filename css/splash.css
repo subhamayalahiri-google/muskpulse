@@ -347,7 +347,6 @@ html, body {
 .lp-hot-item { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); padding:7px 0; border-bottom:1px solid rgba(13,51,73,.5); transition:color .2s; cursor:pointer; }
 .lp-hot-item:hover { color:var(--accent); }
 
-
 .c-tl, .c-br { position:absolute; width:14px; height:14px; }
 .c-tl { top:16px;    left:16px;  border-top:1px solid var(--accent); border-left:1px solid var(--accent); }
 .c-br { bottom:16px; right:16px; border-bottom:1px solid var(--accent); border-right:1px solid var(--accent); }
@@ -405,7 +404,6 @@ body::after {
   background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--scan) 2px, var(--scan) 4px);
   animation:  scanShift 10s linear infinite;
 }
-
 
 /* ── MARKET STATUS INDICATOR (landing page) ──────────────────── */
 .mp-tsla-status {
@@ -474,6 +472,4 @@ body::after {
   flex-shrink: 0;
 }
 .lp-alert-arrow { color: var(--accent); margin-left: auto; }
-@media (max-width: 768px) {
-  .lp-alert-text { font-size: 12px; }
-}
+
