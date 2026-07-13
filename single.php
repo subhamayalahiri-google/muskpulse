@@ -53,7 +53,7 @@
       <div class="article-meta">
         <div class="meta-item accent">MuskPulse Intel</div>
         <div class="meta-item"><?php echo get_the_date('M j, Y'); ?></div>
-        <div class="meta-item read-time"><?php echo ceil(str_word_count(strip_tags(get_the_content())) / 200); ?> min read</div>
+        <div class="meta-item read-time"><?php echo mp_reading_time(); ?> min read</div>
         <div class="meta-item"><?php echo esc_html($cat_name); ?></div>
       </div>
 

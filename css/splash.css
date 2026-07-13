@@ -23,7 +23,6 @@ html, body {
 
 #landing-page a,
 #landing-page button,
-#landing-page .lp-card,
 #landing-page .lp-hot-item,
 #landing-page .lp-cta {
   cursor: pointer;
@@ -348,22 +347,6 @@ html, body {
 .lp-hot-item { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); padding:7px 0; border-bottom:1px solid rgba(13,51,73,.5); transition:color .2s; cursor:pointer; }
 .lp-hot-item:hover { color:var(--accent); }
 
-/* LP Cards */
-.lp-cards { grid-column:span 2; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
-.lp-card { background:var(--bg); padding:24px 28px; position:relative; cursor:pointer; transition:background .15s; overflow:hidden; }
-.lp-card:hover { background:var(--surface); }
-.lp-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--card-accent,var(--accent)),transparent); transform:scaleX(0); transition:transform .3s; transform-origin:left; }
-.lp-card:hover::before { transform:scaleX(1); }
-.lp-card-num { font-family:'Orbitron',monospace; font-weight:900; font-size:40px; color:rgba(0,200,255,.18); line-height:1; margin-bottom:8px; }
-.lp-card-tag { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
-.lp-card-tag .dot { width:4px; height:4px; border-radius:50%; display:inline-block; }
-.tag-spacex { color:var(--accent);  } .tag-spacex .dot { background:var(--accent);  box-shadow:0 0 5px var(--accent); }
-.tag-tesla  { color:var(--gold);    } .tag-tesla .dot  { background:var(--gold);    box-shadow:0 0 5px var(--gold); }
-.tag-xai    { color:var(--purple);  } .tag-xai .dot    { background:var(--purple);  box-shadow:0 0 5px var(--purple); }
-.tag-invest { color:var(--green);   } .tag-invest .dot { background:var(--green);   box-shadow:0 0 5px var(--green); }
-.lp-card h3 { font-family:'Orbitron',monospace; font-weight:700; font-size:13px; line-height:1.4; color:var(--text); margin-bottom:8px; }
-.lp-card p  { font-size:12px; color:var(--muted); line-height:1.6; font-weight:300; }
-.lp-card-meta { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:1px; color:#2a3a4a; margin-top:12px; padding-top:10px; border-top:1px solid rgba(13,51,73,.5); text-transform:uppercase; display:flex; gap:16px; }
 
 .c-tl, .c-br { position:absolute; width:14px; height:14px; }
 .c-tl { top:16px;    left:16px;  border-top:1px solid var(--accent); border-left:1px solid var(--accent); }

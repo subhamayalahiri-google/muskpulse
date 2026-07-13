@@ -60,7 +60,7 @@
           $p_map     = isset($cat_map[$p_slug]) ? $cat_map[$p_slug] : ['cat-invest','#00ff88','tag-invest'];
           $excerpt   = wp_trim_words(get_the_excerpt(), 22, '...');
           $ago       = human_time_diff(get_the_time('U'), current_time('timestamp')) . ' ago';
-          $read      = max(1, ceil(str_word_count(strip_tags(get_the_content())) / 200));
+          $read      = mp_reading_time();
           $permalink = get_permalink();
     ?>
       <article class="archive-card lp-sf-card" data-url="<?php echo esc_url($permalink); ?>" data-id="<?php the_ID(); ?>">

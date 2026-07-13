@@ -9,10 +9,14 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <?php wp_head(); ?>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <?php
+  /* Orbitron, Share Tech Mono, and Exo 2 are self-hosted via @font-face in
+     css/global.css — no Google Fonts CDN request needed (or wanted; it
+     would silently fight the self-hosted @font-face for the same
+     font-family names, and adds a third-party request this theme is
+     otherwise built to avoid). */
+  wp_head();
+  ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>

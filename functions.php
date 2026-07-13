@@ -139,10 +139,21 @@ add_action('after_setup_theme', function() {
 });
 
 // ── READING TIME HELPER ──────────────────────────────────────────────────────
-// Used by single.php to display estimated read time
+// Shared by every template that shows an estimated read time (single posts,
+// Mission Feed, category archives, SpaceX IPO page). Pass a WP_Post (or its
+// post_content) when iterating outside the main loop (e.g. a plain foreach
+// over get_posts()); omit it inside a real Loop (get_the_content() then
+// reads the post the_post()/WP_Query::the_post() already set up).
 
-function mp_reading_time() {
-  $word_count = str_word_count(strip_tags(get_the_content()));
+function mp_reading_time($source = null) {
+  if ($source === null) {
+    $content = get_the_content();
+  } elseif ($source instanceof WP_Post) {
+    $content = $source->post_content;
+  } else {
+    $content = $source;
+  }
+  $word_count = str_word_count(strip_tags($content));
   return max(1, ceil($word_count / 200));
 }
 

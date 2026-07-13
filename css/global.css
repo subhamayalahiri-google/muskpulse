@@ -319,27 +319,6 @@ body {
      defaults to order:0 and sorts before the hero in the column flex. */
   .lp-social-feed { order: 2; }
 
-  /* ── ARTICLE CARDS → list style ── */
-  .lp-cards {
-    order:          2;
-    display:        flex !important;
-    flex-direction: column !important;
-    gap:            0 !important;
-    padding:        0 !important;
-  }
-  .lp-card {
-    border-radius: 0 !important;
-    border-left:   none !important;
-    border-right:  none !important;
-    border-top:    none !important;
-    border-bottom: 1px solid var(--border) !important;
-    padding:       14px !important;
-  }
-  .lp-card-num  { font-size: 12px !important; opacity: 0.4; margin-bottom: 4px !important; }
-  .lp-card h3   { font-size: 16px !important; line-height: 1.4 !important; margin-bottom: 6px !important; }
-  .lp-card p    { font-size: 14px !important; line-height: 1.5 !important; color: var(--text-dim); margin-bottom: 8px !important; }
-  .lp-card-meta { font-size: 12px !important; }
-
   /* ── Prevent horizontal overflow ── */
   #landing-page { overflow-x: hidden; }
 
@@ -517,16 +496,12 @@ body {
  * Cards reuse .archive-card (defined in article.css, loaded on the front
  * page too) so they look identical to the Mission Feed / category archive
  * pages, with Share/Save actions added into the existing meta row.
- * Replaces the old 2-card .lp-cards teaser (now hidden everywhere).
  * ═══════════════════════════════════════════════════════════════════ */
 
-/* Occupies the hero grid's card slot on desktop (grid-column:span 2,
-   same as .lp-cards used to); harmless on mobile where .lp-main switches
-   to a single-column flex layout and grid-column has no effect. */
+/* Occupies the hero grid's card slot on desktop (grid-column:span 2);
+   harmless on mobile where .lp-main switches to a single-column flex
+   layout and grid-column has no effect. */
 .lp-social-feed { grid-column: span 2; }
-
-/* Teaser cards replaced by the full feed above — hidden at all widths */
-.lp-cards { display: none !important; }
 
 .lp-sf-header {
   font-family:    'Share Tech Mono', monospace;

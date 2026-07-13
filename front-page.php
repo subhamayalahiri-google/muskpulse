@@ -188,48 +188,6 @@
       </div>
     </div>
 
-    <div class="lp-cards">
-      <?php
-        $card_posts = get_posts(['numberposts' => 2, 'post_status' => 'publish']);
-        $cat_map = [
-          'spacex-ipo'  => ['tag-spacex', '#00c8ff'],
-          'tesla-news'  => ['tag-tesla',  '#f5a623'],
-          'xai-optimus' => ['tag-xai',    '#cc88ff'],
-        ];
-        if ($card_posts) {
-          foreach ($card_posts as $i => $post) {
-            $cats     = get_the_category($post->ID);
-            $slug     = $cats ? $cats[0]->slug : 'tesla-news';
-            $name     = $cats ? $cats[0]->name : 'Tesla News';
-            $m        = isset($cat_map[$slug]) ? $cat_map[$slug] : ['tag-invest','#00ff88'];
-            $excerpt  = wp_trim_words(get_the_excerpt($post), 18, '...');
-            $ago      = human_time_diff(get_post_time('U', false, $post), current_time('timestamp')) . ' ago';
-            $read     = max(1, ceil(str_word_count(strip_tags($post->post_content)) / 200));
-            echo '<div class="lp-card" style="--card-accent:' . esc_attr($m[1]) . '" onclick="window.location=\'' . esc_url(get_permalink($post)) . '\'">';
-            echo '<div class="lp-card-num">' . str_pad(2+$i,2,'0',STR_PAD_LEFT) . '</div>';
-            echo '<div class="lp-card-tag ' . esc_attr($m[0]) . '"><span class="dot"></span>' . esc_html($name) . '</div>';
-            echo '<h3>' . esc_html(get_the_title($post)) . '</h3>';
-            echo '<p>' . esc_html($excerpt) . '</p>';
-            echo '<div class="lp-card-meta"><span>' . esc_html($ago) . '</span><span>' . esc_html($read) . ' min read</span></div>';
-            echo '</div>';
-          }
-        } else { ?>
-          <div class="lp-card" style="--card-accent:#00c8ff">
-            <div class="lp-card-num">02</div>
-            <div class="lp-card-tag tag-spacex"><span class="dot"></span>SpaceX IPO</div>
-            <h3>SpaceX Files for the Largest IPO in History — Retail Gets 30%</h3>
-            <p>$1.75T valuation. S-1 expected May 15–22. June roadshow. Your complete playbook.</p>
-            <div class="lp-card-meta"><span>Coming soon</span></div>
-          </div>
-          <div class="lp-card" style="--card-accent:#f5a623">
-            <div class="lp-card-num">03</div>
-            <div class="lp-card-tag tag-tesla"><span class="dot"></span>Tesla</div>
-            <h3>Cybercab Rolls Off Giga Texas — Volume Production Has Started</h3>
-            <p>First purpose-built robotaxi in production Q2. What the ramp means for earnings.</p>
-            <div class="lp-card-meta"><span>Coming soon</span></div>
-          </div>
-        <?php } ?>
-    </div>
 
     <!-- ══ MISSION FEED (post wall) — shown on mobile and desktop, cards
          match .archive-card used on Mission Feed / category archive pages ══ -->
@@ -249,7 +207,7 @@
           $sf_name    = $sf_cats ? $sf_cats[0]->name : 'Tesla News';
           $sf_map     = isset($sf_cat_map[$sf_slug]) ? $sf_cat_map[$sf_slug] : ['tag-invest', '#00ff88'];
           $sf_ago     = human_time_diff(get_post_time('U', false, $sf_post), current_time('timestamp')) . ' ago';
-          $sf_read    = max(1, ceil(str_word_count(strip_tags($sf_post->post_content)) / 200));
+          $sf_read    = mp_reading_time($sf_post);
           $sf_link    = get_permalink($sf_post);
           $sf_title   = get_the_title($sf_post);
           $sf_preview = wp_trim_words(strip_shortcodes(strip_tags($sf_post->post_content)), 22, '...');
