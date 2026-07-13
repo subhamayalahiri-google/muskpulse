@@ -22,7 +22,13 @@
       <li><a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a></li>
       <li><a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a></li>
       <li><a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a></li>
-      <li><a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a></li>
+      <li class="mv-nav-more">
+        <button class="mv-nav-more-trigger" id="lpMoreTrigger" type="button" aria-expanded="false">More ▾</button>
+        <div class="mv-nav-more-pop" id="lpMorePop" style="display:none">
+          <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
+          <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
+        </div>
+      </li>
     </ul>
     <div class="lp-status-bar">
       <span class="live-dot"></span>
@@ -41,6 +47,7 @@
     <a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a>
     <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a>
     <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
+    <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
     <div class="mv-mobile-menu-foot">
       <span class="live-dot"></span>
       <span class="mp-clock mv-mob-clock">00:00:00</span>
@@ -90,6 +97,24 @@
           menu.style.display = 'none';
           btn.classList.remove('open');
           btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Desktop "More" popup (Saved Posts, FAQ)
+    var moreBtn = document.getElementById('lpMoreTrigger');
+    var morePop = document.getElementById('lpMorePop');
+    if (moreBtn && morePop) {
+      moreBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var opening = morePop.style.display === 'none' || morePop.style.display === '';
+        morePop.style.display = opening ? 'flex' : 'none';
+        moreBtn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e) {
+        if (!moreBtn.contains(e.target) && !morePop.contains(e.target)) {
+          morePop.style.display = 'none';
+          moreBtn.setAttribute('aria-expanded', 'false');
         }
       });
     }

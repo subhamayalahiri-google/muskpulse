@@ -24,7 +24,13 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
     <li><a href="<?php echo esc_url(home_url('/category/tesla-news')); ?>">TSLA Intel</a></li>
     <li><a href="<?php echo esc_url(home_url('/spacex-ipo')); ?>">SpaceX IPO</a></li>
     <li><a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a></li>
-    <li><a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a></li>
+    <li class="mv-nav-more">
+      <button class="mv-nav-more-trigger" id="mvMoreTrigger" type="button" aria-expanded="false">More ▾</button>
+      <div class="mv-nav-more-pop" id="mvMorePop" style="display:none">
+        <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
+        <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
+      </div>
+    </li>
   </ul>
   <div class="mv-nav-right">
     <span class="live-dot"></span>
@@ -43,6 +49,7 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
   <a href="<?php echo esc_url(home_url('/category/spacex-ipo')); ?>">SpaceX IPO</a>
   <a href="<?php echo esc_url(home_url('/category/xai-optimus')); ?>">Optimus &amp; Neuralink</a>
   <a href="<?php echo esc_url(home_url('/saved-posts')); ?>">Saved Posts</a>
+  <a href="<?php echo esc_url(home_url('/faq')); ?>">FAQ</a>
   <div class="mv-mobile-menu-foot">
     <span class="live-dot"></span>
     <span id="<?php echo $clock_id; ?>-mob" class="mp-clock mv-mob-clock">00:00:00</span>
@@ -93,6 +100,24 @@ $clock_id = isset($args['clock_id']) ? esc_attr($args['clock_id']) : 'live-clock
         menu.style.display = 'none';
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Desktop "More" popup (Saved Posts, FAQ) — same toggle pattern as the hamburger
+  var moreBtn = document.getElementById('mvMoreTrigger');
+  var morePop = document.getElementById('mvMorePop');
+  if (moreBtn && morePop) {
+    moreBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var opening = morePop.style.display === 'none' || morePop.style.display === '';
+      morePop.style.display = opening ? 'flex' : 'none';
+      moreBtn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e) {
+      if (!moreBtn.contains(e.target) && !morePop.contains(e.target)) {
+        morePop.style.display = 'none';
+        moreBtn.setAttribute('aria-expanded', 'false');
       }
     });
   }
