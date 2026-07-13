@@ -115,6 +115,16 @@ add_action('wp_footer', function() {
   }
 }, 1);
 
+// ── SITE FOOTER ──────────────────────────────────────────────────────────
+// Every page except the front page, which includes template-parts/site-footer
+// directly instead (inside #landing-page, its own scroll container — content
+// appended here via wp_footer would render outside it and never be reachable).
+add_action('wp_footer', function() {
+  if (!is_front_page()) {
+    get_template_part('template-parts/site-footer');
+  }
+});
+
 // CSS safety net — catches anything that slips through
 add_action('wp_head', function() {
   echo '<style>

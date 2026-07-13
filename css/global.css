@@ -642,3 +642,46 @@ body {
 }
 
 #footer { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+ * SITE FOOTER — every page (see template-parts/site-footer.php)
+ * ═══════════════════════════════════════════════════════════════════ */
+.mp-footer {
+  border-top: 1px solid var(--border);
+  background:  var(--surface);
+  padding:     20px 24px;
+}
+.mp-footer-inner {
+  max-width:       1280px;
+  margin:          0 auto;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             16px;
+  flex-wrap:       wrap;
+}
+.mp-footer-copy {
+  font-family:    'Share Tech Mono', monospace;
+  font-size:      10px;
+  letter-spacing: 1px;
+  color:          var(--muted);
+  text-transform: uppercase;
+}
+.mp-footer-social { display: flex; gap: 10px; }
+.mp-social-icon {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           30px;
+  height:          30px;
+  border-radius:   4px;
+  font-family:     'Orbitron', monospace;
+  font-size:       13px;
+  font-weight:     700;
+  color:           #fff;
+  text-decoration: none;
+  transition:      opacity 0.2s;
+}
+.mp-social-icon:hover { opacity: 0.8; }
+.mp-social-icon.x        { background: #000; }
+.mp-social-icon.linkedin { background: #0a66c2; font-size: 11px; }

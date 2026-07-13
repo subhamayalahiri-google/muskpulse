@@ -241,6 +241,9 @@
     </div>
 
   </div>
+
+  <?php get_template_part('template-parts/site-footer'); ?>
+
 </div><!-- /landing-page -->
 
 <!-- ══ SPLASH LAYERS ══ -->
