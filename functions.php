@@ -43,7 +43,8 @@ add_action('wp_enqueue_scripts', function() {
         || is_page_template('page-mission-briefing.php')
         || is_page_template('page-thank-you.php')
         || is_page_template('page-spacex-ipo.php')
-        || is_page_template('page-saved-posts.php')) {
+        || is_page_template('page-saved-posts.php')
+        || is_page_template('page-faq.php')) {
       wp_enqueue_style('mp-article', $uri . '/css/article.css', ['mp-global'], mp_asset_version('/css/article.css'));
     }
 

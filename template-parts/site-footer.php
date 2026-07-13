@@ -14,7 +14,10 @@
 ?>
 <footer class="mp-footer">
   <div class="mp-footer-inner">
-    <span class="mp-footer-copy">&copy; <?php echo esc_html(date('Y')); ?> MuskPulse</span>
+    <div class="mp-footer-left">
+      <span class="mp-footer-copy">&copy; <?php echo esc_html(date('Y')); ?> MuskPulse</span>
+      <a href="<?php echo esc_url(home_url('/faq')); ?>" class="mp-footer-link">FAQ</a>
+    </div>
     <div class="mp-footer-social">
       <a href="https://x.com/muskpulse_" target="_blank" rel="noopener noreferrer" class="mp-social-icon x" aria-label="MuskPulse on X">𝕏</a>
       <a href="https://www.linkedin.com/company/muskpulse/" target="_blank" rel="noopener noreferrer" class="mp-social-icon linkedin" aria-label="MuskPulse on LinkedIn">in</a>
