@@ -108,7 +108,8 @@ body {
 .lp-market-strip,
 .lp-mob-tabs,
 .lp-nav-clock,
-.mv-nav-clock { display: none; }
+.mv-nav-clock,
+.lp-feed-more { display: none; }
 
 @keyframes mp-pulse {
   0%, 100% { opacity: 1; }

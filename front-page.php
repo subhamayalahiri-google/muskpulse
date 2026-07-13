@@ -266,6 +266,10 @@
         } ?>
     </div>
 
+    <!-- MOBILE ONLY: link to the full Mission Feed archive for posts past
+         the first 10 shown here — see .lp-feed-more in mobile.css -->
+    <a href="<?php echo esc_url(home_url('/mission-feed')); ?>" class="lp-feed-more">Older Posts →</a>
+
   </div>
 
   <?php get_template_part('template-parts/site-footer'); ?>
