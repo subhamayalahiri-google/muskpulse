@@ -373,6 +373,10 @@
   .mv-nav { padding: 14px 20px; flex-wrap: wrap; gap: 12px; }
   .mv-nav-links { display: none; }
   .affiliate-cta { flex-direction: column; }
+
+  /* Breadcrumb ("MuskPulse › Category › Title") hidden on mobile only —
+     still shown on desktop. */
+  .article-breadcrumb { display: none; }
 }
 
 @media (max-width: 900px) {
