@@ -146,11 +146,11 @@
             $rel_cats = get_the_category();
             $rel_cat  = isset($rel_cats[0]) ? $rel_cats[0]->name : '';
       ?>
-        <div class="related-item" onclick="window.location='<?php the_permalink(); ?>'">
+        <a class="related-item" href="<?php the_permalink(); ?>">
           <div class="related-cat"><?php echo esc_html($rel_cat); ?></div>
           <div class="related-title"><?php the_title(); ?></div>
           <div class="related-time"><?php echo human_time_diff(get_the_time('U'), current_time('timestamp')); ?> ago</div>
-        </div>
+        </a>
       <?php
           endwhile;
           wp_reset_postdata();

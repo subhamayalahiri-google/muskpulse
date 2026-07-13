@@ -203,7 +203,7 @@
           $hot = get_posts(['numberposts' => 20, 'post_status' => 'publish']);
           if ($hot) {
             foreach ($hot as $post) {
-              echo '<div class="lp-hot-item" onclick="window.location=\'' . esc_url(get_permalink($post)) . '\'">→ ' . esc_html(get_the_title($post)) . '</div>';
+              echo '<a class="lp-hot-item" href="' . esc_url(get_permalink($post)) . '">→ ' . esc_html(get_the_title($post)) . '</a>';
             }
           } else {
             foreach (['Cybercab Production Ramp','FSD: 7 New Cities','Optimus Mass Production','xAI + SpaceX Merger','Tesla Energy Record Q1'] as $item) {

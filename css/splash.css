@@ -344,7 +344,7 @@ html, body {
 .lp-ipo-block { padding:24px; text-align:center; }
 .lp-ipo-num  { font-family:'Orbitron',monospace; font-weight:900; font-size:48px; color:var(--accent); text-shadow:0 0 30px rgba(0,200,255,.4); line-height:1; }
 .lp-ipo-unit { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; margin-top:4px; }
-.lp-hot-item { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); padding:7px 0; border-bottom:1px solid rgba(13,51,73,.5); transition:color .2s; cursor:pointer; }
+.lp-hot-item { display:block; font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); text-decoration:none; padding:7px 0; border-bottom:1px solid rgba(13,51,73,.5); transition:color .2s; cursor:pointer; }
 .lp-hot-item:hover { color:var(--accent); }
 
 .c-tl, .c-br { position:absolute; width:14px; height:14px; }
