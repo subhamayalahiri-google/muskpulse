@@ -80,12 +80,21 @@ html {
 }
 
 body {
-  background:  var(--bg);
-  color:       var(--text);
-  font-family: 'Exo 2', sans-serif;
-  font-weight: 300;
-  min-height:  100vh;
-  overflow-x:  hidden;
+  background:     var(--bg);
+  color:          var(--text);
+  font-family:    'Exo 2', sans-serif;
+  font-weight:    300;
+  min-height:     100vh;
+  overflow-x:     hidden;
+  /* Sticky-footer-on-short-pages trick: body's direct children (nav,
+     ticker, each page's own content wrapper, then .mp-footer) stack in a
+     column exactly as they already do in normal flow — this only changes
+     behavior via .mp-footer's margin-top:auto below, which absorbs any
+     leftover vertical space and pushes the footer to the bottom of the
+     viewport when content is shorter than one screen. Longer pages are
+     unaffected; the footer sits at the true end of the content as usual. */
+  display:        flex;
+  flex-direction: column;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -647,9 +656,13 @@ body {
  * SITE FOOTER — every page (see template-parts/site-footer.php)
  * ═══════════════════════════════════════════════════════════════════ */
 .mp-footer {
-  border-top: 1px solid var(--border);
+  border-top:  1px solid var(--border);
   background:  var(--surface);
   padding:     20px 24px;
+  /* Sticks to the bottom of the viewport on pages shorter than one
+     screen (see the body{} comment above); flows normally at the end
+     of the content otherwise. */
+  margin-top:  auto;
 }
 .mp-footer-inner {
   max-width:       1280px;
