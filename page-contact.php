@@ -76,12 +76,34 @@ $mp_error = isset($_GET['mp_contact']) && $_GET['mp_contact'] === 'error';
 
     <label class="contact-checkbox">
       <input type="checkbox" name="mp_contact_subscribe" value="1">
-      <span>I'd like to receive emails from the MuskPulse team.</span>
+      <span>I agree to receive marketing emails and communications from the MuskPulse team. I understand I can unsubscribe at any time.</span>
     </label>
 
-    <button type="submit" class="contact-submit"><span>Send Message →</span></button>
+    <button type="submit" class="contact-submit" id="mpContactSubmit" disabled><span>Send Message →</span></button>
   </form>
 
 </div>
+
+<script>
+(function () {
+  var form   = document.querySelector('.contact-form');
+  var submit = document.getElementById('mpContactSubmit');
+  if (!form || !submit) return;
+
+  var required = form.querySelectorAll('#mp_contact_name, #mp_contact_email, #mp_contact_subject, #mp_contact_message');
+
+  function updateSubmitState() {
+    var allFilled = Array.prototype.every.call(required, function (field) {
+      return field.value.trim() !== '' && field.checkValidity();
+    });
+    submit.disabled = !allFilled;
+  }
+
+  required.forEach(function (field) {
+    field.addEventListener('input', updateSubmitState);
+  });
+  updateSubmitState();
+})();
+</script>
 
 <?php get_footer(); ?>

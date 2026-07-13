@@ -1056,4 +1056,9 @@ body::after {
 }
 .contact-submit:hover { color: var(--bg); }
 .contact-submit:hover::before { transform: translateX(0); }
+.contact-submit:disabled {
+  opacity: 0.35; cursor: not-allowed;
+  border-color: var(--muted); color: var(--muted);
+}
+.contact-submit:disabled:hover::before { transform: translateX(-100%); }
 .contact-submit span { position: relative; z-index: 1; }
