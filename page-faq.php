@@ -36,7 +36,11 @@ $faq = [
     ],
     [
       'q' => 'Can I get MuskPulse updates by email?',
-      'a' => 'Yes. The Mission Briefing is a free newsletter covering weekly intel on Tesla, SpaceX, xAI, Optimus, and Neuralink — you can sign up from the Mission Briefing page or the signup form on any article.',
+      'a' => 'Yes. The Mission Briefing is a free newsletter covering weekly intel on Tesla, SpaceX, xAI, Optimus, and Neuralink — you can sign up from the Mission Briefing page, the signup form on any article, or by checking the newsletter opt-in box on the Contact page.',
+    ],
+    [
+      'q' => 'How can I contact MuskPulse?',
+      'a' => 'Use the Contact page to send a message directly to the MuskPulse team. The form also lets you opt in to receive a reply and/or subscribe to the Mission Briefing newsletter.',
     ],
     [
       'q' => 'Does MuskPulse use cookies?',
