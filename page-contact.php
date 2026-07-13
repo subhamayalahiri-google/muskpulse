@@ -5,7 +5,10 @@
  *
  * Contact form — POSTs to admin-post.php (handler + wp_mail() call in
  * functions.php, see mp_handle_contact_form) rather than a form plugin,
- * matching this theme's hand-rolled conventions. Sends to info@muskpulse.com.
+ * matching this theme's hand-rolled conventions. Sends to info@muskpulse.com,
+ * and — only if the checkbox is opted into — subscribes the sender to the
+ * same Kit (ConvertKit) Mission Briefing form used sitewide, via
+ * mp_convertkit_subscribe().
  *
  * Assign in WordPress: Pages → Contact → Page Attributes → Template → Contact
  */
@@ -70,6 +73,11 @@ $mp_error = isset($_GET['mp_contact']) && $_GET['mp_contact'] === 'error';
       <label for="mp_contact_message">Message</label>
       <textarea id="mp_contact_message" name="mp_contact_message" rows="6" required></textarea>
     </div>
+
+    <label class="contact-checkbox">
+      <input type="checkbox" name="mp_contact_subscribe" value="1">
+      <span>I'd like to receive emails from the MuskPulse team.</span>
+    </label>
 
     <button type="submit" class="contact-submit"><span>Send Message →</span></button>
   </form>

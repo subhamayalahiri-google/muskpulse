@@ -234,8 +234,39 @@ function mp_handle_contact_form() {
 
   $sent = wp_mail('info@muskpulse.com', $mail_subject, $mail_body, $mail_headers);
 
+  // Opt-in checkbox — only subscribe if the visitor actually checked it.
+  if (!empty($_POST['mp_contact_subscribe'])) {
+    mp_convertkit_subscribe($email, $name);
+  }
+
   wp_safe_redirect(add_query_arg('mp_contact', $sent ? 'sent' : 'error', $redirect_base));
   exit;
 }
 add_action('admin_post_mp_contact_submit',        'mp_handle_contact_form');
 add_action('admin_post_nopriv_mp_contact_submit', 'mp_handle_contact_form');
+
+// Subscribes an email to the same Kit (ConvertKit) form used sitewide for
+// the Mission Briefing newsletter (form ID 9428023 — see the embedded forms
+// in page-mission-briefing.php/single.php/page-spacex-ipo.php), via Kit's
+// public v3 API. Requires MP_CONVERTKIT_API_KEY to be defined — following
+// the same pattern as the Finnhub key (see .gitignore): add
+//   define('MP_CONVERTKIT_API_KEY', 'your-kit-api-key');
+// to wp-content/mu-plugins/muskpulse-api.php on the server (never commit
+// it to this repo). Find the key in Kit → Settings → Advanced → API.
+function mp_convertkit_subscribe($email, $name = '') {
+  if (!defined('MP_CONVERTKIT_API_KEY') || !MP_CONVERTKIT_API_KEY) {
+    return false;
+  }
+
+  $form_id  = '9428023';
+  $response = wp_remote_post("https://api.convertkit.com/v3/forms/{$form_id}/subscribe", [
+    'timeout' => 8,
+    'body'    => [
+      'api_key'    => MP_CONVERTKIT_API_KEY,
+      'email'      => $email,
+      'first_name' => $name,
+    ],
+  ]);
+
+  return !is_wp_error($response) && wp_remote_retrieve_response_code($response) < 300;
+}

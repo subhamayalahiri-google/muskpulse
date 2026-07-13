@@ -1031,6 +1031,15 @@ body::after {
 }
 .contact-field input:focus,
 .contact-field textarea:focus { outline: none; border-color: var(--accent); }
+.contact-checkbox {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text-dim); font-weight: 300; line-height: 1.5;
+  cursor: pointer;
+}
+.contact-checkbox input {
+  margin-top: 3px; flex-shrink: 0;
+  width: 16px; height: 16px; accent-color: var(--accent);
+}
 .contact-submit {
   align-self: flex-start;
   font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
