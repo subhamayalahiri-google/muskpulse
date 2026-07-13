@@ -105,10 +105,22 @@
   updateIpoCountdown();
 
   // ── MAIN RENDER LOOP ────────────────────────────────────────────
+  // Draws to the starfield/smoke canvases behind the splash. Once the
+  // splash is gone (skipped, or finished playing) neither canvas is
+  // visible again, so the loop must stop itself — otherwise it keeps
+  // calling requestAnimationFrame forever, burning CPU/battery on every
+  // visit for as long as the tab stays open, for a canvas nobody sees.
+  let rafId = null;
   function loop(ts) {
     MP.drawStars();
     MP.smoke.loop(ts);
-    requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loop);
+  }
+  function stopLoop() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
   }
 
   // ── LAUNCH SEQUENCE ────────────────────────────────────────────
@@ -326,6 +338,12 @@
     // Hold briefly while screen is fully covered, then clear
     await wait(600);
     smoke.startClearing();
+
+    // startClearing() has no completion callback (particles just fade/blow
+    // away over time) — give it a generous fixed window to finish visually,
+    // then stop the loop. Neither canvas is visible after this point.
+    await wait(4000);
+    stopLoop();
   }
 
   // ── SESSION CHECK ──────────────────────────────────────────────
@@ -337,6 +355,10 @@
 
   // ── SKIP SPLASH (returning visitors) ───────────────────────────
   function skipSplash() {
+    // Nothing the loop draws is visible once we skip straight to the
+    // landing page — stop it immediately rather than let it run forever.
+    stopLoop();
+
     // Restore cursor immediately — splash CSS sets cursor:none on body
     document.body.style.cursor = 'default';
 
