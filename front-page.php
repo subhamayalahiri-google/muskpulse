@@ -130,7 +130,6 @@
 
     <div class="lp-hero">
       <div class="c-tl"></div>
-      <div class="invest-badge">Investor Alert</div>
       <div class="lp-mission-tag">Mission Feed — Active</div>
       <h1 class="lp-h1">
         <span class="w1">INTEL ON</span>

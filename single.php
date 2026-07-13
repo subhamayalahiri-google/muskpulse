@@ -38,7 +38,6 @@
           <span class="dot"></span>
           <?php echo esc_html($cat_name); ?>
         </div>
-        <div class="invest-badge">Investor Alert</div>
       </div>
 
       <h1 class="article-title"><?php the_title(); ?></h1>
