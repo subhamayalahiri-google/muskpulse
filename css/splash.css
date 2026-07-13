@@ -492,5 +492,5 @@ body::after {
 }
 .lp-alert-arrow { color: var(--accent); margin-left: auto; }
 @media (max-width: 768px) {
-  .lp-alert-text { font-size: 10px; }
+  .lp-alert-text { font-size: 12px; }
 }
