@@ -51,10 +51,16 @@ add_action('wp_enqueue_scripts', function() {
   // into their own file, enqueued with a media query so viewports above that
   // width aren't render-blocked on it — the browser still fetches it (in case
   // the window gets resized/rotated) but at low priority, off the critical
-  // path for first paint on desktop. Depends on whichever of the three base
-  // stylesheets are actually registered on this page; WP silently skips any
-  // dependency that wasn't (e.g. mp-splash on a non-front-page).
-  wp_enqueue_style('mp-mobile', $uri . '/css/mobile.css', ['mp-global', 'mp-article', 'mp-splash'], mp_asset_version('/css/mobile.css'), '(max-width: 1080px)');
+  // path for first paint on desktop. Dependencies must only list handles
+  // actually registered on this page — wp_style_is(..., 'registered') is
+  // required here because listing a handle that was never registered (e.g.
+  // mp-splash outside the front page) makes WP silently drop the entire
+  // dependent stylesheet, not just skip that one dependency.
+  $mobile_css_deps = array_filter(
+    ['mp-global', 'mp-article', 'mp-splash'],
+    function ($handle) { return wp_style_is($handle, 'registered'); }
+  );
+  wp_enqueue_style('mp-mobile', $uri . '/css/mobile.css', $mobile_css_deps, mp_asset_version('/css/mobile.css'), '(max-width: 1080px)');
 
   // Live TSLA stock price — loads on all pages except front page (splash handles its own JS)
   if (!is_front_page()) {
