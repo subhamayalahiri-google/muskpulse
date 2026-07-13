@@ -841,6 +841,16 @@ body::after {
   .archive-card-read  { opacity: 1; }
 }
 
+/* Card text was still desktop-sized on phones even after the general
+   mobile font-size pass (it isn't inside any max-width:768px block). */
+@media (max-width: 768px) {
+  .archive-card-num     { font-size: 40px; }
+  .archive-card-tag     { font-size: 12px; }
+  .archive-card-title   { font-size: 18px; }
+  .archive-card-excerpt { font-size: 16px; }
+  .archive-card-meta    { font-size: 12px; }
+}
+
 
 /* ═══════════════════════════════════════════════════════
    MARKET STATUS INDICATOR — mp-tsla-status
